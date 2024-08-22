@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { StackProps } from "aws-cdk-lib";
 
-export const Recipe = z.object({
+export const RecipeSchema = z.object({
   id: z.string(),
   name: z.string(),
   author: z.string(),
@@ -17,7 +17,7 @@ export const Recipe = z.object({
   servings: z.number().optional(),
 });
 
-export const Config = z.object({
+export const ConfigSchema = z.object({
   ACCOUNT: z.string(),
   REGION: z.string(),
   LAMBDA_ENV: z.string(),
@@ -25,36 +25,9 @@ export const Config = z.object({
   BUCKET_NAME: z.string(),
 });
 
-export type RecipeType = z.infer<typeof Recipe>;
-export type ConfigType = z.infer<typeof Config>;
+export type RecipeType = z.infer<typeof RecipeSchema>;
+export type ConfigType = z.infer<typeof ConfigSchema>;
 
 export interface AwsEnvStackProps extends StackProps {
   config: Readonly<ConfigType>;
 }
-
-// export interface RecipeInterface {
-//   id: string;
-//   name: string;
-//   author: string;
-//   createdAt: string;
-//   modifiedAt: string;
-//   category: string;
-//   ingredients: string[];
-//   method: string;
-//   cookTime?: string;
-//   prepTime?: string;
-//   addTime?: string;
-//   yield?: string;
-//   servings?: number;
-// }
-
-// export interface ConfigProps {
-//   ACCOUNT: string;
-//   REGION: string;
-//   LAMBDA_ENV: string;
-//   TABLE_NAME: string;
-// }
-
-// export interface AwsEnvStackProps extends StackProps {
-//   config: Readonly<ConfigProps>;
-// }

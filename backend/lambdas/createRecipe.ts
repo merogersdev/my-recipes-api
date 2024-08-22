@@ -1,30 +1,28 @@
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
-import { randomUUID } from "crypto";
 
-import { RecipeInterface } from "../../types";
+import { RecipeSchema } from "../../types";
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import type { Handler } from "aws-lambda";
+import { logger } from "../../logger";
 
 const dynamodb = new DynamoDB();
 
-export const handler = async (body: string | null) => {
+export const handler: Handler = async (event) => {
   try {
-    const uuid = randomUUID();
-
-    if (body === null) {
+    if (event.body === null) {
       return {
         statusCode: 400,
         body: JSON.stringify({ message: "Missing Recipe" }),
       };
     }
 
-    const bodyParsed = JSON.parse(body) as RecipeInterface;
+    const recipe = RecipeSchema.parse(event.body);
 
     await dynamodb.send(
       new PutCommand({
         TableName: process.env.TABLE_NAME,
         Item: {
-          pk: uuid,
-          ...bodyParsed,
+          ...recipe,
         },
       })
     );
@@ -34,7 +32,7 @@ export const handler = async (body: string | null) => {
       body: JSON.stringify({ message: "Recipe Created" }),
     };
   } catch (error) {
-    console.error("Server Error:", error);
+    logger.error("Server Error:", error);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Server Error" }),

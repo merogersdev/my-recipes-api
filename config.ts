@@ -7,4 +7,5 @@ export const getConfig = (): ConfigType => ({
   REGION: process.env.REGION || "",
   LAMBDA_ENV: process.env.LAMBDA_ENV || "",
   TABLE_NAME: process.env.TABLE_NAME || "",
+  BUCKET_NAME: process.env.BUCKET_NAME || "",
 });
