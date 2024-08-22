@@ -4,22 +4,35 @@ import * as cdk from "aws-cdk-lib";
 //import { MyRecipesAwsStack } from "../lib/my-recipes-aws-stack";
 import { getConfig } from "../config";
 
-import { MyRecipesAwsBackendStack } from "../lib/backend-stack";
-import { MyRecipesAwsFrontendStack } from "../lib/frontend-stack";
+import { MyRecipesBackendStack } from "../lib/backend-stack";
+import { MyRecipesFrontendStack } from "../lib/frontend-stack";
+import { MyRecipesDatabaseStack } from "../lib/database-stack";
 
 const config = getConfig();
 
 const app = new cdk.App();
 //new MyRecipesAwsStack(app, "MyRecipesAwsStack", {});
 
-new MyRecipesAwsBackendStack(app, "MyRecipesAwsBackendStack", {
+// --- DynamoDB Database Stack --- //
+new MyRecipesDatabaseStack(app, "MyRecipesAwsDatabaseStack", {
   env: {
     region: config.REGION,
     account: config.ACCOUNT,
   },
   config,
 });
-new MyRecipesAwsFrontendStack(app, "MyRecipesAwsFrontendStack", {
+
+// --- Rest API, Authorizer, Usage Plan and Lambda Backend Stack --- //
+new MyRecipesBackendStack(app, "MyRecipesAwsBackendStack", {
+  env: {
+    region: config.REGION,
+    account: config.ACCOUNT,
+  },
+  config,
+});
+
+// --- S3 Bucket Frontend Stack --- //
+new MyRecipesFrontendStack(app, "MyRecipesAwsFrontendStack", {
   env: {
     region: config.REGION,
     account: config.ACCOUNT,

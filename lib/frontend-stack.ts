@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 
 import type { AwsEnvStackProps } from "../types";
 
-export class MyRecipesAwsFrontendStack extends cdk.Stack {
+export class MyRecipesFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
     super(scope, id, props);
 
@@ -13,9 +13,9 @@ export class MyRecipesAwsFrontendStack extends cdk.Stack {
     // --- FRONTEND --- ///
 
     // S3 Bucket
-    new Bucket(this, "MyRecipesAWSFrontend", {
+    new Bucket(this, "MyRecipesFrontend", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
-      bucketName: "recipes.merogers.dev",
+      bucketName: config.FRONTEND_BUCKET,
       versioned: true,
     });
   }

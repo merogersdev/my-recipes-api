@@ -22,6 +22,7 @@ export const Config = z.object({
   REGION: z.string(),
   LAMBDA_ENV: z.string(),
   TABLE_NAME: z.string(),
+  BUCKET_NAME: z.string(),
 });
 
 export type RecipeType = z.infer<typeof Recipe>;

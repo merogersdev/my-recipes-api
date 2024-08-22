@@ -1,10 +1,4 @@
-import {
-  Stack,
-  StackProps,
-  CfnOutput,
-  RemovalPolicy,
-  Duration,
-} from "aws-cdk-lib";
+import { Stack, CfnOutput, Duration, Fn } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   ApiKey,
@@ -18,7 +12,6 @@ import {
 } from "aws-cdk-lib/aws-apigateway";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
-import { Table, AttributeType, BillingMode } from "aws-cdk-lib/aws-dynamodb";
 
 import {
   OAuthScope,
@@ -29,11 +22,20 @@ import {
 
 import type { AwsEnvStackProps } from "../types";
 
-export class MyRecipesAwsBackendStack extends Stack {
+import { Table, type ITable } from "aws-cdk-lib/aws-dynamodb";
+
+export class MyRecipesBackendStack extends Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
     super(scope, id, props);
 
     const { config } = props;
+
+    const recipeTableArn = Fn.importValue("RecipeTableArn");
+    const recipeTable: ITable = Table.fromTableArn(
+      this,
+      "RecipeTable",
+      recipeTableArn
+    );
 
     // --- Auth --- ///
     const myRecipesUserPool = new UserPool(this, "MyRecipesUserPool", {
@@ -45,7 +47,7 @@ export class MyRecipesAwsBackendStack extends Stack {
     });
 
     myRecipesUserPool.addClient("MyRecipesUserPool", {
-      userPoolClientName: "MyRecipesAwsApp",
+      userPoolClientName: "MyRecipesApp",
       oAuth: {
         flows: { implicitCodeGrant: true },
         scopes: [OAuthScope.OPENID],
@@ -64,23 +66,11 @@ export class MyRecipesAwsBackendStack extends Stack {
       },
     });
 
-    // --- Database --- //
-
-    // DynamoDB Table
-    const recipeTable = new Table(this, "recipeTable", {
-      partitionKey: {
-        name: "id",
-        type: AttributeType.STRING,
-      },
-      removalPolicy: RemovalPolicy.DESTROY,
-      billingMode: BillingMode.PAY_PER_REQUEST,
-    });
-
     // --- BACKEND --- //
 
     // Rest API Gateway
-    const api = new RestApi(this, "MyRecipesAWSAPI", {
-      restApiName: "MyRecipesAWSAPI",
+    const api = new RestApi(this, "MyRecipesRestApi", {
+      restApiName: "MyRecipesRestApi",
       defaultCorsPreflightOptions: {
         allowOrigins: Cors.ALL_ORIGINS,
         allowMethods: Cors.ALL_METHODS,
@@ -90,12 +80,13 @@ export class MyRecipesAwsBackendStack extends Stack {
 
     const authorizer = new CfnAuthorizer(this, "myRecipesAuthorizer", {
       restApiId: api.restApiId,
-      name: "MyRecipesAPIAuthorizer",
+      name: "MyRecipesRestApiAuthorizer",
       type: "COGNITO_USER_POOLS",
       identitySource: "method.request.header.Authorization",
       providerArns: [myRecipesUserPool.userPoolArn],
     });
 
+    // TODO: Fix any
     const authorizerOptions: any = {
       authorizationType: AuthorizationType.COGNITO,
       authorizer: {
@@ -104,22 +95,18 @@ export class MyRecipesAwsBackendStack extends Stack {
     };
 
     // API Key
-    const backendAPIKey = new ApiKey(this, "MyRecipesAWSAPIKey");
+    const backendAPIKey = new ApiKey(this, "MyRecipesApiKey");
 
     // Usage Plan
-    const backendAPIUsagePlan = new UsagePlan(
-      this,
-      "MyRecipesAWSBackendUsagePlan",
-      {
-        name: "My Recipes API Usage Plan",
-        apiStages: [
-          {
-            api,
-            stage: api.deploymentStage,
-          },
-        ],
-      }
-    );
+    const backendAPIUsagePlan = new UsagePlan(this, "MyRecipesApiUsagePlan", {
+      name: "My Recipes API Usage Plan",
+      apiStages: [
+        {
+          api,
+          stage: api.deploymentStage,
+        },
+      ],
+    });
 
     // Attach Usage Plan to API
     backendAPIUsagePlan.addApiKey(backendAPIKey);
