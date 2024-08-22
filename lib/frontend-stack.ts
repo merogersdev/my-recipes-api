@@ -15,7 +15,7 @@ export class MyRecipesFrontendStack extends cdk.Stack {
     // S3 Bucket
     new Bucket(this, "MyRecipesFrontend", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
-      bucketName: config.FRONTEND_BUCKET,
+      bucketName: config.BUCKET_NAME,
       versioned: true,
     });
   }
