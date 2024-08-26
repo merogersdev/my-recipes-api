@@ -2,7 +2,7 @@ import * as cdk from "aws-cdk-lib";
 import { Bucket } from "aws-cdk-lib/aws-s3";
 import { Construct } from "constructs";
 
-import type { AwsEnvStackProps } from "../types";
+import type { AwsEnvStackProps } from "./shared/types";
 
 export class MyRecipesFrontendStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
@@ -15,7 +15,7 @@ export class MyRecipesFrontendStack extends cdk.Stack {
     // S3 Bucket
     new Bucket(this, "MyRecipesFrontend", {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
-      bucketName: config.BUCKET_NAME,
+      bucketName: "recipes.merogers.dev",
       versioned: true,
     });
   }

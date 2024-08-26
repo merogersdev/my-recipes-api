@@ -20,7 +20,7 @@ import {
   UserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
 
-import type { AwsEnvStackProps } from "../types";
+import type { AwsEnvStackProps } from "./shared/types";
 
 import { Table, type ITable } from "aws-cdk-lib/aws-dynamodb";
 
@@ -86,8 +86,8 @@ export class MyRecipesBackendStack extends Stack {
       providerArns: [myRecipesUserPool.userPoolArn],
     });
 
-    // TODO: Fix any
-    const authorizerOptions: any = {
+    // Authorizer Options
+    const authorizerOptions = {
       authorizationType: AuthorizationType.COGNITO,
       authorizer: {
         authorizerId: authorizer.ref,
@@ -112,42 +112,97 @@ export class MyRecipesBackendStack extends Stack {
     backendAPIUsagePlan.addApiKey(backendAPIKey);
 
     // Get All Recipes
-    const getRecipesLambda = new NodejsFunction(this, "GetRecipesLambda", {
-      functionName: "getRecipes",
-      entry: "backend/lambdas/getRecipes.ts",
+    const getAllRecipesLambda = new NodejsFunction(this, "GetRecipesLambda", {
+      functionName: "getAllRecipes",
+      entry: "backend/lambda/get-all-recipes.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        TABLE_NAME: config.TABLE_NAME,
+        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
       },
     });
 
-    // Post New Recipe
-    const createRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
-      functionName: "postRecipe",
-      entry: "backend/lambdas/createRecipe.ts",
+    // Get One Recipe
+    const getRecipeLambda = new NodejsFunction(this, "GetRecipesLambda", {
+      functionName: "getRecipe",
+      entry: "backend/lambda/get-recipe.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        TABLE_NAME: config.TABLE_NAME,
+        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+      },
+    });
+
+    // Create New Recipe
+    const createRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
+      functionName: "createRecipe",
+      entry: "backend/lambda/create-recipe.ts",
+      runtime: Runtime.NODEJS_20_X,
+      handler: "handler",
+      environment: {
+        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+      },
+    });
+
+    // Update Recipe
+    const updateRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
+      functionName: "updateRecipe",
+      entry: "backend/lambda/update-recipe.ts",
+      runtime: Runtime.NODEJS_20_X,
+      handler: "handler",
+      environment: {
+        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+      },
+    });
+
+    // Update Recipe
+    const deleteRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
+      functionName: "deleteRecipe",
+      entry: "backend/lambda/delete-recipe.ts",
+      runtime: Runtime.NODEJS_20_X,
+      handler: "handler",
+      environment: {
+        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
       },
     });
 
     // DB Permissions
-    recipeTable.grantReadWriteData(getRecipesLambda);
+    recipeTable.grantReadWriteData(getAllRecipesLambda);
+    recipeTable.grantReadWriteData(getRecipeLambda);
     recipeTable.grantReadWriteData(createRecipeLambda);
+    recipeTable.grantReadWriteData(updateRecipeLambda);
+    recipeTable.grantReadWriteData(deleteRecipeLambda);
 
     // API Gateway Methods
     const recipes = api.root.addResource("recipes");
+    const recipe = recipes.addResource("{id}");
 
     // GET: /recipes
-    recipes.addMethod("GET", new LambdaIntegration(getRecipesLambda), {
+    recipes.addMethod("GET", new LambdaIntegration(getAllRecipesLambda), {
       ...authorizerOptions,
       apiKeyRequired: true,
     });
 
     // POST: /Recipes
     recipes.addMethod("POST", new LambdaIntegration(createRecipeLambda), {
+      ...authorizerOptions,
+      apiKeyRequired: true,
+    });
+
+    // GET: /recipes/id
+    recipe.addMethod("GET", new LambdaIntegration(getRecipeLambda), {
+      ...authorizerOptions,
+      apiKeyRequired: true,
+    });
+
+    // PUT: /recipes/id
+    recipe.addMethod("PUT", new LambdaIntegration(updateRecipeLambda), {
+      ...authorizerOptions,
+      apiKeyRequired: true,
+    });
+
+    // DELETE: /recipes/id
+    recipe.addMethod("DELETE", new LambdaIntegration(deleteRecipeLambda), {
       ...authorizerOptions,
       apiKeyRequired: true,
     });
