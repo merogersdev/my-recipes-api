@@ -8,10 +8,9 @@ import { logger } from "../../../shared/logger";
 import type { Handler } from "aws-lambda";
 
 export const handler: Handler = async (event) => {
-  const table = process.env.DYNAMODB_TABLE_NAME;
   try {
     const params = {
-      TableName: table,
+      TableName: process.env.AWS_TABLE_NAME,
       Key: marshall({ id: event.pathParameters.id }),
     };
 

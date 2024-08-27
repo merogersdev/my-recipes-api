@@ -119,7 +119,7 @@ export class MyRecipesBackendStack extends Stack {
         runtime: Runtime.NODEJS_20_X,
         handler: "handler",
         environment: {
-          DYNAMODB_TABLE_NAME: recipeTable.tableName,
+          AWS_TABLE_NAME: recipeTable.tableName,
         },
       }
     );
@@ -131,7 +131,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: recipeTable.tableName,
+        AWS_TABLE_NAME: recipeTable.tableName,
       },
     });
 
@@ -142,7 +142,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: recipeTable.tableName,
+        AWS_TABLE_NAME: recipeTable.tableName,
       },
     });
 
@@ -153,7 +153,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: recipeTable.tableName,
+        AWS_TABLE_NAME: recipeTable.tableName,
       },
     });
 
@@ -164,7 +164,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: recipeTable.tableName,
+        AWS_TABLE_NAME: recipeTable.tableName,
       },
     });
 

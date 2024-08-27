@@ -7,11 +7,10 @@ import { logger } from "../../../shared/logger";
 import type { Handler } from "aws-lambda";
 
 export const handler: Handler = async (_event) => {
-  const table = process.env.DYNAMODB_TABLE_NAME;
   try {
     const { Items } = await dbClient.send(
       new ScanCommand({
-        TableName: table,
+        TableName: process.env.AWS_TABLE_NAME,
       })
     );
 
