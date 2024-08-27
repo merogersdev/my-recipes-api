@@ -112,18 +112,22 @@ export class MyRecipesBackendStack extends Stack {
     backendAPIUsagePlan.addApiKey(backendAPIKey);
 
     // Get All Recipes
-    const getAllRecipesLambda = new NodejsFunction(this, "GetRecipesLambda", {
-      functionName: "getAllRecipes",
-      entry: "backend/lambda/get-all-recipes.ts",
-      runtime: Runtime.NODEJS_20_X,
-      handler: "handler",
-      environment: {
-        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
-      },
-    });
+    const getAllRecipesLambda = new NodejsFunction(
+      this,
+      "GetAllRecipesLambda",
+      {
+        functionName: "getAllRecipes",
+        entry: "backend/lambda/get-all-recipes.ts",
+        runtime: Runtime.NODEJS_20_X,
+        handler: "handler",
+        environment: {
+          DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+        },
+      }
+    );
 
     // Get One Recipe
-    const getRecipeLambda = new NodejsFunction(this, "GetRecipesLambda", {
+    const getRecipeLambda = new NodejsFunction(this, "GetRecipeLambda", {
       functionName: "getRecipe",
       entry: "backend/lambda/get-recipe.ts",
       runtime: Runtime.NODEJS_20_X,
@@ -145,7 +149,7 @@ export class MyRecipesBackendStack extends Stack {
     });
 
     // Update Recipe
-    const updateRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
+    const updateRecipeLambda = new NodejsFunction(this, "UpdateRecipeLambda", {
       functionName: "updateRecipe",
       entry: "backend/lambda/update-recipe.ts",
       runtime: Runtime.NODEJS_20_X,
@@ -156,7 +160,7 @@ export class MyRecipesBackendStack extends Stack {
     });
 
     // Update Recipe
-    const deleteRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
+    const deleteRecipeLambda = new NodejsFunction(this, "DeleteRecipeLambda", {
       functionName: "deleteRecipe",
       entry: "backend/lambda/delete-recipe.ts",
       runtime: Runtime.NODEJS_20_X,
