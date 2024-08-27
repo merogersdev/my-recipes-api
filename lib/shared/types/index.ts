@@ -19,9 +19,8 @@ export type RecipeType = {
 export type EnvConfigType = {
   AWS_ACCOUNT: string;
   AWS_REGION: string;
-  LAMBDA_ENV: string;
-  DYNAMODB_TABLE_NAME: string;
-  S3_BUCKET_NAME: string;
+  AWS_TABLE_NAME: string;
+  AWS_BUCKET_NAME: string;
 };
 
 export interface AwsEnvStackProps extends StackProps {

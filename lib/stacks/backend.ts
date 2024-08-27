@@ -20,15 +20,13 @@ import {
   UserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
 
-import type { AwsEnvStackProps } from "./shared/types";
+import type { AwsEnvStackProps } from "../shared/types";
 
 import { Table, type ITable } from "aws-cdk-lib/aws-dynamodb";
 
 export class MyRecipesBackendStack extends Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
     super(scope, id, props);
-
-    const { config } = props;
 
     const recipeTableArn = Fn.importValue("RecipeTableArn");
     const recipeTable: ITable = Table.fromTableArn(
@@ -117,11 +115,11 @@ export class MyRecipesBackendStack extends Stack {
       "GetAllRecipesLambda",
       {
         functionName: "getAllRecipes",
-        entry: "backend/lambda/get-all-recipes.ts",
+        entry: "lib/backend/lambda/recipes/get-all.ts",
         runtime: Runtime.NODEJS_20_X,
         handler: "handler",
         environment: {
-          DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+          DYNAMODB_TABLE_NAME: recipeTable.tableName,
         },
       }
     );
@@ -129,44 +127,44 @@ export class MyRecipesBackendStack extends Stack {
     // Get One Recipe
     const getRecipeLambda = new NodejsFunction(this, "GetRecipeLambda", {
       functionName: "getRecipe",
-      entry: "backend/lambda/get-recipe.ts",
+      entry: "lib/backend/lambda/recipes/get-one.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+        DYNAMODB_TABLE_NAME: recipeTable.tableName,
       },
     });
 
     // Create New Recipe
     const createRecipeLambda = new NodejsFunction(this, "CreateRecipeLambda", {
       functionName: "createRecipe",
-      entry: "backend/lambda/create-recipe.ts",
+      entry: "lib/backend/lambda/recipes/create.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+        DYNAMODB_TABLE_NAME: recipeTable.tableName,
       },
     });
 
     // Update Recipe
     const updateRecipeLambda = new NodejsFunction(this, "UpdateRecipeLambda", {
       functionName: "updateRecipe",
-      entry: "backend/lambda/update-recipe.ts",
+      entry: "lib/backend/lambda/recipes/update.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+        DYNAMODB_TABLE_NAME: recipeTable.tableName,
       },
     });
 
     // Update Recipe
     const deleteRecipeLambda = new NodejsFunction(this, "DeleteRecipeLambda", {
       functionName: "deleteRecipe",
-      entry: "backend/lambda/delete-recipe.ts",
+      entry: "lib/backend/lambda/recipes/delete.ts",
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        DYNAMODB_TABLE_NAME: config.DYNAMODB_TABLE_NAME,
+        DYNAMODB_TABLE_NAME: recipeTable.tableName,
       },
     });
 
@@ -178,7 +176,8 @@ export class MyRecipesBackendStack extends Stack {
     recipeTable.grantReadWriteData(deleteRecipeLambda);
 
     // API Gateway Methods
-    const recipes = api.root.addResource("recipes");
+    const version = api.root.addResource("v1");
+    const recipes = version.addResource("recipes");
     const recipe = recipes.addResource("{id}");
 
     // GET: /recipes

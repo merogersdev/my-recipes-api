@@ -3,13 +3,11 @@ import { Construct } from "constructs";
 
 import { Table, AttributeType, BillingMode } from "aws-cdk-lib/aws-dynamodb";
 
-import type { AwsEnvStackProps } from "./shared/types";
+import type { AwsEnvStackProps } from "../shared/types";
 
 export class MyRecipesDatabaseStack extends Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
     super(scope, id, props);
-
-    const { config } = props;
 
     // --- Database --- //
 

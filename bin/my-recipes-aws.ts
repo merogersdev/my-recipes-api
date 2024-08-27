@@ -4,9 +4,9 @@ import * as cdk from "aws-cdk-lib";
 //import { MyRecipesAwsStack } from "../lib/my-recipes-aws-stack";
 import { getEnvConfig } from "../lib/config/env";
 
-import { MyRecipesBackendStack } from "../lib/backend-stack";
-import { MyRecipesFrontendStack } from "../lib/frontend-stack";
-import { MyRecipesDatabaseStack } from "../lib/database-stack";
+import { MyRecipesBackendStack } from "../lib/stacks/backend";
+import { MyRecipesFrontendStack } from "../lib/stacks/frontend";
+import { MyRecipesDatabaseStack } from "../lib/stacks/database";
 
 const config = getEnvConfig();
 

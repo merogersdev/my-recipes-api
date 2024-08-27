@@ -1,26 +1,25 @@
-import { PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { DeleteItemCommand } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
-import { dbClient } from "../../lib/config/db";
-import { logger } from "../../lib/shared/logger";
+import { dbClient } from "../../../config/db";
+import { logger } from "../../../shared/logger";
 
 import type { Handler } from "aws-lambda";
 
 export const handler: Handler = async (event) => {
   const table = process.env.DYNAMODB_TABLE_NAME;
   try {
-    const body = JSON.parse(event.body);
     const params = {
       TableName: table,
-      Item: marshall(body),
+      Key: marshall({ id: event.pathParameters.id }),
     };
 
-    const result = await dbClient.send(new PutItemCommand(params));
+    const result = await dbClient.send(new DeleteItemCommand(params));
 
     return {
-      statusCode: 201,
+      statusCode: 200,
       body: JSON.stringify({
-        message: "Recipe created successfully",
+        message: "Recipe deleted successfully",
         result,
       }),
     };

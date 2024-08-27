@@ -1,8 +1,8 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 
-import { dbClient } from "../../lib/config/db";
-import { logger } from "../../lib/shared/logger";
+import { dbClient } from "../../../config/db";
+import { logger } from "../../../shared/logger";
 
 import type { Handler } from "aws-lambda";
 

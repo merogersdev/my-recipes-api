@@ -2,8 +2,8 @@ import { APIGatewayEvent } from "aws-lambda";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { GetItemCommand } from "@aws-sdk/client-dynamodb";
 
-import { dbClient } from "../../lib/config/db";
-import { logger } from "../../lib/shared/logger";
+import { dbClient } from "../../../config/db";
+import { logger } from "../../../shared/logger";
 
 import type { Handler } from "aws-lambda";
 
