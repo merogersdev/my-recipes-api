@@ -10,7 +10,7 @@ import type { Handler } from "aws-lambda";
 export const handler: Handler = async (event) => {
   try {
     const params = {
-      TableName: process.env.AWS_TABLE_NAME,
+      TableName: process.env.AWS_DYNAMODB_TABLE,
       Key: marshall({ id: event.pathParameters.id }),
     };
 

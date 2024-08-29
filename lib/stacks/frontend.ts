@@ -15,7 +15,7 @@ export class MyRecipesFrontendStack extends Stack {
     // S3 Bucket
     new Bucket(this, "MyRecipesFrontend", {
       removalPolicy: RemovalPolicy.DESTROY,
-      bucketName: config.AWS_BUCKET_NAME,
+      bucketName: config.AWS_S3_BUCKET,
       versioned: true,
     });
   }

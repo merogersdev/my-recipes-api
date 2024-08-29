@@ -10,7 +10,7 @@ export const handler: Handler = async (_event) => {
   try {
     const { Items } = await dbClient.send(
       new ScanCommand({
-        TableName: process.env.AWS_TABLE_NAME,
+        TableName: process.env.AWS_DYNAMODB_TABLE,
       })
     );
 

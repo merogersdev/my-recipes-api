@@ -10,7 +10,7 @@ export const handler: Handler = async (event) => {
   try {
     const body = JSON.parse(event.body);
     const params = {
-      TableName: process.env.AWS_TABLE_NAME,
+      TableName: process.env.AWS_DYNAMODB_TABLE,
       Item: marshall(body),
     };
 

@@ -14,11 +14,11 @@ export class MyRecipesDatabaseStack extends Stack {
     // DynamoDB Table
     const recipeTable = new Table(this, "recipeTable", {
       partitionKey: {
-        name: "recipeId",
+        name: "author",
         type: AttributeType.STRING,
       },
       sortKey: {
-        name: "ModifiedAt",
+        name: "createdOn",
         type: AttributeType.STRING,
       },
 

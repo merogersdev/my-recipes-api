@@ -1,17 +1,14 @@
 import type { StackProps } from "aws-cdk-lib";
 
 export type RecipeType = {
-  recipeId: string;
   name: string;
   author: string;
-  createdAt: Date;
-  modifiedAt: Date;
+  createdOn: Date;
   category: string;
   ingredients: string[];
   method: string;
   cookTime?: string;
   prepTime?: string;
-  addTIme?: string;
   yield?: string;
   servings?: number;
 };
@@ -19,8 +16,8 @@ export type RecipeType = {
 export type EnvConfigType = {
   AWS_ACCOUNT: string;
   AWS_REGION: string;
-  AWS_TABLE_NAME: string;
-  AWS_BUCKET_NAME: string;
+  AWS_S3_BUCKET: string;
+  AWS_DYNAMODB_TABLE: string;
 };
 
 export interface AwsEnvStackProps extends StackProps {

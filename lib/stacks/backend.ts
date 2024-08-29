@@ -9,20 +9,22 @@ import {
   LambdaIntegration,
   RestApi,
   UsagePlan,
+  Model,
+  RequestValidator,
 } from "aws-cdk-lib/aws-apigateway";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
-
 import {
   OAuthScope,
   UserPool,
   UserPoolClientIdentityProvider,
   UserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
+import { Table } from "aws-cdk-lib/aws-dynamodb";
 
 import type { AwsEnvStackProps } from "../shared/types";
-
-import { Table, type ITable } from "aws-cdk-lib/aws-dynamodb";
+import type { ITable } from "aws-cdk-lib/aws-dynamodb";
+import { JsonSchemaType } from "aws-cdk-lib/aws-apigateway";
 
 export class MyRecipesBackendStack extends Stack {
   constructor(scope: Construct, id: string, props: AwsEnvStackProps) {
@@ -109,6 +111,37 @@ export class MyRecipesBackendStack extends Stack {
     // Attach Usage Plan to API
     backendAPIUsagePlan.addApiKey(backendAPIKey);
 
+    // Recipe Model
+    const recipeModel = new Model(this, "model-validator", {
+      restApi: api,
+      contentType: "application/json",
+      description: "Validate Recipe request body",
+      modelName: "recipeModelCDK",
+      schema: {
+        type: JsonSchemaType.OBJECT,
+        required: [
+          "author",
+          "created",
+          "name",
+          "category",
+          "ingredients",
+          "method",
+        ],
+        properties: {
+          name: { type: JsonSchemaType.STRING },
+          author: { type: JsonSchemaType.STRING },
+          createdOn: { type: JsonSchemaType.STRING },
+          category: { type: JsonSchemaType.STRING },
+          ingredients: { type: JsonSchemaType.ARRAY },
+          method: { type: JsonSchemaType.STRING },
+          cookTime: { type: JsonSchemaType.STRING },
+          prepTime: { type: JsonSchemaType.STRING },
+          yield: { type: JsonSchemaType.STRING },
+          servings: { type: JsonSchemaType.NUMBER },
+        },
+      },
+    });
+
     // Get All Recipes
     const getAllRecipesLambda = new NodejsFunction(
       this,
@@ -119,7 +152,7 @@ export class MyRecipesBackendStack extends Stack {
         runtime: Runtime.NODEJS_20_X,
         handler: "handler",
         environment: {
-          AWS_TABLE_NAME: recipeTable.tableName,
+          AWS_DYNAMODB_TABLE: recipeTable.tableName,
         },
       }
     );
@@ -131,7 +164,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        AWS_TABLE_NAME: recipeTable.tableName,
+        AWS_DYNAMODB_TABLE: recipeTable.tableName,
       },
     });
 
@@ -142,7 +175,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        AWS_TABLE_NAME: recipeTable.tableName,
+        AWS_DYNAMODB_TABLE: recipeTable.tableName,
       },
     });
 
@@ -153,7 +186,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        AWS_TABLE_NAME: recipeTable.tableName,
+        AWS_DYNAMODB_TABLE: recipeTable.tableName,
       },
     });
 
@@ -164,7 +197,7 @@ export class MyRecipesBackendStack extends Stack {
       runtime: Runtime.NODEJS_20_X,
       handler: "handler",
       environment: {
-        AWS_TABLE_NAME: recipeTable.tableName,
+        AWS_DYNAMODB_TABLE: recipeTable.tableName,
       },
     });
 
@@ -190,6 +223,15 @@ export class MyRecipesBackendStack extends Stack {
     recipes.addMethod("POST", new LambdaIntegration(createRecipeLambda), {
       ...authorizerOptions,
       apiKeyRequired: true,
+      requestValidator: new RequestValidator(
+        this,
+        "myRecipesPostBodyValidator",
+        {
+          restApi: api,
+          requestValidatorName: "myRecipesPostBodyValidator",
+          validateRequestBody: true,
+        }
+      ),
     });
 
     // GET: /recipes/id
@@ -199,9 +241,18 @@ export class MyRecipesBackendStack extends Stack {
     });
 
     // PUT: /recipes/id
-    recipe.addMethod("PUT", new LambdaIntegration(updateRecipeLambda), {
+    recipe.addMethod("PATCH", new LambdaIntegration(updateRecipeLambda), {
       ...authorizerOptions,
       apiKeyRequired: true,
+      requestValidator: new RequestValidator(
+        this,
+        "myRecipesPatchBodyValidator",
+        {
+          restApi: api,
+          requestValidatorName: "myRecipesPatchBodyValidator",
+          validateRequestBody: true,
+        }
+      ),
     });
 
     // DELETE: /recipes/id

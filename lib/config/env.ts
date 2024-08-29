@@ -6,6 +6,6 @@ import type { EnvConfigType } from "../shared/types";
 export const getEnvConfig = (): EnvConfigType => ({
   AWS_ACCOUNT: process.env.CDK_DEFAULT_ACCOUNT || "",
   AWS_REGION: process.env.CDK_DEFAULT_REGION || "",
-  AWS_TABLE_NAME: process.env.AWS_TABLE_NAME || "",
-  AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME || "",
+  AWS_S3_BUCKET: process.env.AWS_S3_BUCKET || "",
+  AWS_DYNAMODB_TABLE: process.env.AWS_DYNAMODB_TABLE || "",
 });

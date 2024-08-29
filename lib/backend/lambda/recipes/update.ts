@@ -11,7 +11,7 @@ export const handler: Handler = async (event) => {
     const body = JSON.parse(event.body);
     const recipeObjKeys = Object.keys(body);
     const params = {
-      TableName: process.env.AWS_TABLE_NAME,
+      TableName: process.env.AWS_DYNAMODB_TABLE,
       Key: marshall({ id: event.pathParameters.id }),
       UpdateExpression: `SET ${recipeObjKeys
         .map((_, index) => `#key${index} = :value${index}`)
