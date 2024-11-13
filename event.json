@@ -1,0 +1,101 @@
+{
+  "message": "Here's your response",
+  "event": {
+    "resource": "/v1/recipes",
+    "path": "/v1/recipes",
+    "httpMethod": "POST",
+    "headers": {
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "CloudFront-Forwarded-Proto": "https",
+      "CloudFront-Is-Desktop-Viewer": "true",
+      "CloudFront-Is-Mobile-Viewer": "false",
+      "CloudFront-Is-SmartTV-Viewer": "false",
+      "CloudFront-Is-Tablet-Viewer": "false",
+      "CloudFront-Viewer-ASN": "6327",
+      "CloudFront-Viewer-Country": "CA",
+      "Content-Type": "application/json",
+      "Host": "mp1neqygpc.execute-api.ca-central-1.amazonaws.com",
+      "Postman-Token": "3dcf8a40-2c54-49f3-b282-5ff45ef4499e",
+      "User-Agent": "PostmanRuntime/7.42.0",
+      "Via": "1.1 db564df96deea6a06c35f20a19c40864.cloudfront.net (CloudFront)",
+      "X-Amz-Cf-Id": "1hIq4lrKEA45GoUeq6P8yYoaVURJ3L6M5y8zEYyXX_kdrHgiA-RQNg==",
+      "X-Amzn-Trace-Id": "Root=1-6733cb96-66ef560163faad403662cf5e",
+      "X-Forwarded-For": "174.2.26.221, 15.158.47.209",
+      "X-Forwarded-Port": "443",
+      "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+      "Accept": ["*/*"],
+      "Accept-Encoding": ["gzip, deflate, br"],
+      "CloudFront-Forwarded-Proto": ["https"],
+      "CloudFront-Is-Desktop-Viewer": ["true"],
+      "CloudFront-Is-Mobile-Viewer": ["false"],
+      "CloudFront-Is-SmartTV-Viewer": ["false"],
+      "CloudFront-Is-Tablet-Viewer": ["false"],
+      "CloudFront-Viewer-ASN": ["6327"],
+      "CloudFront-Viewer-Country": ["CA"],
+      "Content-Type": ["application/json"],
+      "Host": ["mp1neqygpc.execute-api.ca-central-1.amazonaws.com"],
+      "Postman-Token": ["3dcf8a40-2c54-49f3-b282-5ff45ef4499e"],
+      "User-Agent": ["PostmanRuntime/7.42.0"],
+      "Via": [
+        "1.1 db564df96deea6a06c35f20a19c40864.cloudfront.net (CloudFront)"
+      ],
+      "X-Amz-Cf-Id": [
+        "1hIq4lrKEA45GoUeq6P8yYoaVURJ3L6M5y8zEYyXX_kdrHgiA-RQNg=="
+      ],
+      "X-Amzn-Trace-Id": ["Root=1-6733cb96-66ef560163faad403662cf5e"],
+      "X-Forwarded-For": ["174.2.26.221, 15.158.47.209"],
+      "X-Forwarded-Port": ["443"],
+      "X-Forwarded-Proto": ["https"]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+      "resourceId": "8m6uxb",
+      "resourcePath": "/v1/recipes",
+      "httpMethod": "POST",
+      "extendedRequestId": "BJy_jHRuYosESmQ=",
+      "requestTime": "12/Nov/2024:21:41:42 +0000",
+      "path": "/prod/v1/recipes",
+      "accountId": "509399603443",
+      "protocol": "HTTP/1.1",
+      "stage": "prod",
+      "domainPrefix": "mp1neqygpc",
+      "requestTimeEpoch": 1731447702341,
+      "requestId": "c7097464-da04-4a5e-bafc-7cad626580e9",
+      "identity": {
+        "cognitoIdentityPoolId": null,
+        "accountId": null,
+        "cognitoIdentityId": null,
+        "caller": null,
+        "sourceIp": "174.2.26.221",
+        "principalOrgId": null,
+        "accessKey": null,
+        "cognitoAuthenticationType": null,
+        "cognitoAuthenticationProvider": null,
+        "userArn": null,
+        "userAgent": "PostmanRuntime/7.42.0",
+        "user": null
+      },
+      "domainName": "mp1neqygpc.execute-api.ca-central-1.amazonaws.com",
+      "deploymentId": "k0i5lm",
+      "apiId": "mp1neqygpc"
+    },
+    "body": "{\r\n    \"username\": \"chefjohn\",\r\n    \"type\": \"Recipe\",\r\n    \"RecipeName\": \"Chicken Paprikash\",\r\n    \"Category\": \"Entree\"\r\n}",
+    "isBase64Encoded": false
+  },
+  "context": {
+    "callbackWaitsForEmptyEventLoop": true,
+    "functionVersion": "$LATEST",
+    "functionName": "MyRecipeAppGetAllRecipes",
+    "memoryLimitInMB": "1024",
+    "logGroupName": "/aws/lambda/MyRecipeAppGetAllRecipes",
+    "logStreamName": "2024/11/12/[$LATEST]8c383beb8774447d807641cbed5cce98",
+    "invokedFunctionArn": "arn:aws:lambda:ca-central-1:509399603443:function:MyRecipeAppGetAllRecipes",
+    "awsRequestId": "23c40ec2-e853-4f8c-93d9-221aa5978a02"
+  }
+}

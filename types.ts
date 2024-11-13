@@ -1,17 +1,5 @@
 import type { StackProps } from "aws-cdk-lib";
-
-export type RecipeType = {
-  name: string;
-  author: string;
-  createdOn: Date;
-  category: string;
-  ingredients: string[];
-  method: string;
-  cookTime?: string;
-  prepTime?: string;
-  yield?: string;
-  servings?: number;
-};
+import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
 export type EnvConfigType = {
   AWS_ACCOUNT: string;
@@ -22,4 +10,12 @@ export type EnvConfigType = {
 
 export interface AwsEnvStackProps extends StackProps {
   config: Readonly<EnvConfigType>;
+}
+
+export interface APIGWProxyPropsWithID extends APIGatewayProxyHandlerV2 {
+  event: {
+    pathParameters: {
+      id: string;
+    };
+  };
 }

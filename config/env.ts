@@ -1,7 +1,8 @@
 import * as dotenv from "dotenv";
-dotenv.config();
 
-import type { EnvConfigType } from "../shared/types";
+import type { EnvConfigType } from "../types";
+
+dotenv.config();
 
 export const getEnvConfig = (): EnvConfigType => ({
   AWS_ACCOUNT: process.env.CDK_DEFAULT_ACCOUNT || "",
