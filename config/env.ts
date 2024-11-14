@@ -1,6 +1,6 @@
 import * as dotenv from "dotenv";
 
-import type { EnvConfigType } from "../types";
+import type { EnvConfigType } from "../schemas/env";
 
 dotenv.config();
 

@@ -1,19 +1,17 @@
-import { Stack, RemovalPolicy } from "aws-cdk-lib";
+import { Stack, StackProps, RemovalPolicy } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   ApiKeySourceType,
-  LambdaRestApi,
   RestApi,
+  LambdaIntegration,
 } from "aws-cdk-lib/aws-apigateway";
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
-import { LambdaIntegration } from "aws-cdk-lib/aws-apigateway";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
 import { AttributeType, Billing, TableV2 } from "aws-cdk-lib/aws-dynamodb";
 
-import type { StackProps } from "aws-cdk-lib";
-import type { EnvConfigType } from "../../types";
+import type { EnvConfigType } from "../../schemas/env";
 
-export interface AppStackProps extends StackProps {
+interface AppStackProps extends StackProps {
   config: Readonly<EnvConfigType>;
 }
 

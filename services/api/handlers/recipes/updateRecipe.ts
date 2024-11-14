@@ -1,18 +1,9 @@
 import { UpdateCommand } from "@aws-sdk/lib-dynamodb";
 
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { fromEnv } from "@aws-sdk/credential-provider-env";
+import { docClient } from "../../../../config/db";
 import { apiResponse } from "../../../../utils/response";
 
 import type { Handler } from "aws-lambda";
-
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION,
-  credentials: fromEnv(),
-});
-
-const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler: Handler = async (event) => {
   const { id, username } = event.pathParameters;

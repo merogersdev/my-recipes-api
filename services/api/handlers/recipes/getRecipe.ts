@@ -1,18 +1,10 @@
-import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { fromEnv } from "@aws-sdk/credential-provider-env";
-import { apiResponse } from "../../../../utils/response";
+import { GetCommand } from "@aws-sdk/lib-dynamodb";
 
+import { apiResponse } from "../../../../utils/response";
 import { logger } from "../../../../utils/logger";
+import { docClient } from "../../../../config/db";
 
 import type { Handler } from "aws-lambda";
-
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION,
-  credentials: fromEnv(),
-});
-
-const docClient = DynamoDBDocumentClient.from(client);
 
 export const handler: Handler = async (event, _context) => {
   const { id, username } = event.pathParameters;

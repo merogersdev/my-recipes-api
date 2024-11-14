@@ -1,17 +1,8 @@
 import { ScanCommand } from "@aws-sdk/lib-dynamodb";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
-import { fromEnv } from "@aws-sdk/credential-provider-env";
-import { apiResponse } from "../../../../utils/response";
-
 import type { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
-const client = new DynamoDBClient({
-  region: process.env.AWS_REGION,
-  credentials: fromEnv(),
-});
-
-const docClient = DynamoDBDocumentClient.from(client);
+import { apiResponse } from "../../../../utils/response";
+import { docClient } from "../../../../config/db";
 
 export const handler: APIGatewayProxyHandlerV2 = async (_event, _context) => {
   try {
