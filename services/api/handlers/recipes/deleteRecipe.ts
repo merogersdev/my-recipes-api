@@ -1,7 +1,6 @@
-import { DeleteCommand } from "@aws-sdk/lib-dynamodb";
-
 import { apiResponse } from "../../../../utils/response";
-import { docClient } from "../../../../config/db";
+import { deleteItem } from "../../../../utils/db";
+import { logger } from "../../../../utils/logger";
 
 import type { Handler } from "aws-lambda";
 
@@ -17,15 +16,10 @@ export const handler: Handler = async (event, _context) => {
   };
 
   try {
-    const deleteRecipe = new DeleteCommand({
-      TableName: table,
-      Key: item,
-    });
-
-    await docClient.send(deleteRecipe);
+    await deleteItem(item, table);
     return apiResponse(200, "Success: Deleted item", item);
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return apiResponse(500, "Error: Could not delete item", error);
   }
 };
