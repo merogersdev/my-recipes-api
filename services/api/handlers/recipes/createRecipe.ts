@@ -25,7 +25,6 @@ export const handler: Handler = async (event, _context) => {
 
   try {
     Recipe.parse(newItem);
-
     await createItem(newItem, table);
     return apiResponse(201, "Success: Item Created", newItem);
   } catch (error) {

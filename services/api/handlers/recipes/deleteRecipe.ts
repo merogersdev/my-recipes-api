@@ -4,9 +4,10 @@ import { logger } from "../../../../utils/logger";
 
 import type { Handler } from "aws-lambda";
 
+const table: string = process.env.AWS_DYNAMODB_TABLE!;
+
 export const handler: Handler = async (event, _context) => {
   const { id, username } = event.pathParameters;
-  const table = process.env.AWS_DYNAMODB_TABLE;
 
   if (!id || !username) return apiResponse(400, "Error: invalid ID", null);
 
