@@ -9,10 +9,10 @@ import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
 import { AttributeType, Billing, TableV2 } from "aws-cdk-lib/aws-dynamodb";
 
-import type { EnvConfigType } from "../../schemas/env";
+import type { envType } from "../../schemas/env";
 
 interface AppStackProps extends StackProps {
-  config: Readonly<EnvConfigType>;
+  config: Readonly<envType>;
 }
 
 export class AppStack extends Stack {
