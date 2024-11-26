@@ -4,6 +4,7 @@ import {
   PutCommand,
   DeleteCommand,
   ScanCommand,
+  QueryCommand
 } from "@aws-sdk/lib-dynamodb";
 
 import { docClient } from "../config/db";
@@ -91,6 +92,27 @@ export const getAllItems = async (table: string) => {
 
   const getItems = new ScanCommand({
     TableName: process.env.AWS_DYNAMODB_TABLE,
+  });
+
+  return await docClient.send(getItems);
+};
+
+// Queries by PK and record type
+export const getAllItemsQuery = async (table: string, pk: string, beginsWith: string) => {
+  if (!table || !pk || !beginsWith) throw new Error("Missing values for get item function");
+
+  const getItems = new QueryCommand({
+    TableName: process.env.AWS_DYNAMODB_TABLE,
+
+    KeyConditionExpression: '#PK = :PK and begins_with(#SK,:SK)',
+    ExpressionAttributeNames: {
+      '#PK': 'PK',
+      '#SK': 'SK',
+    },
+    ExpressionAttributeValues: {
+      ':PK': pk.toString(),
+      ':SK': beginsWith.toString(),
+    },
   });
 
   return await docClient.send(getItems);

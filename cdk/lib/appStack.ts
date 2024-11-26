@@ -28,7 +28,7 @@ export class AppStack extends Stack {
 
     // Single Table for App
     const appTable = new TableV2(this, "MyRecipesTable", {
-      tableName: "MyRecipesTable",
+      tableName: config.AWS_DYNAMODB_TABLE,
       partitionKey: { name: "PK", type: AttributeType.STRING },
       sortKey: { name: "SK", type: AttributeType.STRING },
       removalPolicy: RemovalPolicy.DESTROY,
@@ -40,7 +40,7 @@ export class AppStack extends Stack {
         },
         {
           indexName: "GSI2_TYPE",
-          partitionKey: { name: "Type", type: AttributeType.STRING },
+          partitionKey: { name: "recordType", type: AttributeType.STRING },
           sortKey: { name: "createdAt", type: AttributeType.STRING },
         },
       ],
@@ -101,6 +101,38 @@ export class AppStack extends Stack {
       ...nodeFunctionConfig,
     });
 
+    // Get User Handler
+    const getUser = new NodejsFunction(this, "MyRecipeAppGetUser", {
+      functionName: "MyRecipeAppGetUser",
+      entry: "services/api/handlers/users/getUser.ts",
+      description: "Get User Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Create User Handler
+    const createUser = new NodejsFunction(this, "MyRecipeAppCreateUser", {
+      functionName: "MyRecipeAppCreateUser",
+      entry: "services/api/handlers/users/createUser.ts",
+      description: "Create New User Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Create User Handler
+    const deleteUser = new NodejsFunction(this, "MyRecipeAppDeleteUser", {
+      functionName: "MyRecipeAppDeleteUser",
+      entry: "services/api/handlers/users/deleteUser.ts",
+      description: "Delete User Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Create User Handler
+    const updateUser = new NodejsFunction(this, "MyRecipeAppUpdateUser", {
+      functionName: "MyRecipeAppUpdateUser",
+      entry: "services/api/handlers/users/updateUser.ts",
+      description: "Update User Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
     // Rest API With Lambda Integration
     const api = new RestApi(this, "MyPortfolioAppRestApi", {
       restApiName: "MyRecipesAppApi",
@@ -134,21 +166,40 @@ export class AppStack extends Stack {
     const updateRecipeIntegration = new LambdaIntegration(updateRecipe);
     const getAllRecipesIntegration = new LambdaIntegration(getAllRecipes);
 
+    const createUserIntegration = new LambdaIntegration(createUser);
+    const getUserIntegration = new LambdaIntegration(getUser);
+    const updateUserIntegration = new LambdaIntegration(updateUser);
+    const deleteUserIntegration = new LambdaIntegration(deleteUser);
+
     // Add resources and methods
     const apiVersion = "v1";
     const apiBase = api.root.addResource(apiVersion);
+
+    // /recipes
     const recipesBase = apiBase.addResource("recipes");
     const recipesWithUsername = recipesBase.addResource("{username}");
     const recipeWithID = recipesWithUsername.addResource("{id}");
 
-    // /recipes
-    recipesBase.addMethod("POST", createRecipeIntegration);
-    recipesBase.addMethod("GET", getAllRecipesIntegration);
+    // /recipes/{username}
+    recipesWithUsername.addMethod("POST", createRecipeIntegration);
+    recipesWithUsername.addMethod("GET", getAllRecipesIntegration);
 
-    // /recipes/{id}
+    // /recipes/{username}/{id}
     recipeWithID.addMethod("GET", getRecipeIntegration);
     recipeWithID.addMethod("PATCH", updateRecipeIntegration);
     recipeWithID.addMethod("DELETE", deleteRecipeIntegration);
+
+    // Users
+    const usersBase = apiBase.addResource("users");
+    const usersWithUsername = usersBase.addResource("{username}");
+
+    // /users
+    usersWithUsername.addMethod("POST", createUserIntegration);
+
+    // /users/{username}
+    usersWithUsername.addMethod("GET", getUserIntegration);
+    usersWithUsername.addMethod("PATCH", updateUserIntegration);
+    usersWithUsername.addMethod("DELETE", deleteUserIntegration);
 
     // resource.addMethod("POST", sendEmailIntegration, {
     //   apiKeyRequired: true,

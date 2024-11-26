@@ -1,13 +1,10 @@
-import { randomUUID } from "crypto";
-
 import { apiResponse } from "../../../../utils/response";
 import { logger } from "../../../../utils/logger";
-import { Recipe } from "../../../../schemas/recipe";
+import { User } from "../../../../schemas/user";
 import { createItem } from "../../../../utils/db";
 
 import type { Handler } from "aws-lambda";
 
-const uuid = randomUUID();
 const table: string = process.env.AWS_DYNAMODB_TABLE!;
 const now: string = new Date().toISOString();
 
@@ -17,19 +14,17 @@ export const handler: Handler = async (event, _context) => {
 
   const newItem = {
     PK: `USER#${username}`,
-    SK: `RECIPE#${uuid}`,
+    SK: `USER#${username}`,
     createdAt: now,
-    recipeId: uuid,
-    likes: 0,
     ...body,
   };
 
   try {
-    Recipe.parse(newItem);
+    User.parse(newItem);
     await createItem(newItem, table);
-    return apiResponse(201, "Success: Item created", newItem);
+    return apiResponse(201, "Success: User created", newItem);
   } catch (error) {
     logger.error(error);
-    return apiResponse(500, "Error: Cannot create item", error);
+    return apiResponse(500, "Error: Cannot create user", error);
   }
 };

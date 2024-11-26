@@ -3,7 +3,7 @@ import { z } from "zod";
 export const Recipe = z.object({
   PK: z.string(),
   SK: z.string(),
-  type: z.string(),
+  recordType: z.string(),
   createdAt: z.string().datetime(),
   recipeId: z.string().uuid(),
   recipeName: z.string(),

@@ -10,8 +10,8 @@ const app = new cdk.App();
 // Application Stack
 new AppStack(app, "MyRecipesAppStack", {
   env: {
-    account: env.AWS_ACCOUNT,
-    region: env.AWS_REGION,
+    account: env.CDK_DEFAULT_ACCOUNT,
+    region: env.CDK_DEFAULT_REGION,
   },
   config: env,
 });
