@@ -1,5 +1,5 @@
-import { apiResponse } from "../../../../utils/response";
-import { updateItem } from "../../../../utils/db";
+import { apiResponse } from "../../utils/response";
+import { updateItem } from "../../utils/db";
 
 import type { Handler } from "aws-lambda";
 
@@ -8,8 +8,7 @@ const table: string = process.env.AWS_DYNAMODB_TABLE!;
 export const handler: Handler = async (event) => {
   const { username } = event.pathParameters;
 
-  if (!username)
-    return apiResponse(400, "Error: Invalid username", null);
+  if (!username) return apiResponse(400, "Error: Invalid username", null);
 
   const item = {
     PK: `USER#${username}`,

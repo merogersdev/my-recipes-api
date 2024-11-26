@@ -4,10 +4,10 @@ import {
   PutCommand,
   DeleteCommand,
   ScanCommand,
-  QueryCommand
+  QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 
-import { docClient } from "../config/db";
+import { docClient } from "../../../config/db";
 
 // Return single item from DynamoDB Table
 export const getItem = async (item: object, table: string | undefined) => {
@@ -98,20 +98,25 @@ export const getAllItems = async (table: string) => {
 };
 
 // Queries by PK and record type
-export const getAllItemsQuery = async (table: string, pk: string, beginsWith: string) => {
-  if (!table || !pk || !beginsWith) throw new Error("Missing values for get item function");
+export const getAllItemsQuery = async (
+  table: string,
+  pk: string,
+  beginsWith: string
+) => {
+  if (!table || !pk || !beginsWith)
+    throw new Error("Missing values for get item function");
 
   const getItems = new QueryCommand({
     TableName: process.env.AWS_DYNAMODB_TABLE,
 
-    KeyConditionExpression: '#PK = :PK and begins_with(#SK,:SK)',
+    KeyConditionExpression: "#PK = :PK and begins_with(#SK,:SK)",
     ExpressionAttributeNames: {
-      '#PK': 'PK',
-      '#SK': 'SK',
+      "#PK": "PK",
+      "#SK": "SK",
     },
     ExpressionAttributeValues: {
-      ':PK': pk.toString(),
-      ':SK': beginsWith.toString(),
+      ":PK": pk.toString(),
+      ":SK": beginsWith.toString(),
     },
   });
 

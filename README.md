@@ -11,16 +11,16 @@ Utilize AWS Cloud Development Kit and Typescript to build a fully-featured appli
 ## Tech Stack
 
 - [x] TypeScript
-- [] React
+- [x] React
 - [] Redux Toolkit
 - []
 - [x] AWS CDK
 - [x] DynamoDB
-- [] Lambda
+- [x] Lambda
 - [] S3
-- [x] API Gateway
-- [x] Usage Plan + API Key
-- [x] Cognito
+- [] API Gateway
+- [] Usage Plan + API Key
+- [] Cognito
 
 ## Useful commands
 

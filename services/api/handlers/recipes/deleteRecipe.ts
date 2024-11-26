@@ -1,6 +1,6 @@
-import { apiResponse } from "../../../../utils/response";
-import { deleteItem } from "../../../../utils/db";
-import { logger } from "../../../../utils/logger";
+import { apiResponse } from "../../utils/response";
+import { deleteItem } from "../../utils/db";
+import { logger } from "../../utils/logger";
 
 import type { Handler } from "aws-lambda";
 

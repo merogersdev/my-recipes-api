@@ -1,5 +1,5 @@
-import { apiResponse } from "../../../../utils/response";
-import { updateItem } from "../../../../utils/db";
+import { apiResponse } from "../../utils/response";
+import { updateItem } from "../../utils/db";
 
 import type { Handler } from "aws-lambda";
 

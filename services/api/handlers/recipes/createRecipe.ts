@@ -1,9 +1,9 @@
 import { randomUUID } from "crypto";
 
-import { apiResponse } from "../../../../utils/response";
-import { logger } from "../../../../utils/logger";
+import { apiResponse } from "../../utils/response";
+import { logger } from "../../utils/logger";
 import { Recipe } from "../../../../schemas/recipe";
-import { createItem } from "../../../../utils/db";
+import { createItem } from "../../utils/db";
 
 import type { Handler } from "aws-lambda";
 
