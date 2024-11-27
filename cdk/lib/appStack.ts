@@ -35,13 +35,9 @@ export class AppStack extends Stack {
       billing: Billing.onDemand(),
       globalSecondaryIndexes: [
         {
-          indexName: "GSI1_SK",
-          partitionKey: { name: "SK", type: AttributeType.STRING },
-        },
-        {
-          indexName: "GSI2_TYPE",
-          partitionKey: { name: "recordType", type: AttributeType.STRING },
-          sortKey: { name: "createdAt", type: AttributeType.STRING },
+          indexName: "GSI1",
+          partitionKey: { name: "GSI1PK", type: AttributeType.STRING },
+          sortKey: { name: "GSI1SK", type: AttributeType.STRING },
         },
       ],
     });
@@ -159,6 +155,11 @@ export class AppStack extends Stack {
     appTable.grantReadWriteData(updateRecipe);
     appTable.grantReadWriteData(getAllRecipes);
 
+    appTable.grantReadWriteData(createUser);
+    appTable.grantReadWriteData(getUser);
+    appTable.grantReadWriteData(updateUser);
+    appTable.grantReadWriteData(deleteUser);
+
     // Integrate Lambdas with API
     const createRecipeIntegration = new LambdaIntegration(createRecipe);
     const deleteRecipeIntegration = new LambdaIntegration(deleteRecipe);
@@ -189,14 +190,12 @@ export class AppStack extends Stack {
     recipeWithID.addMethod("PATCH", updateRecipeIntegration);
     recipeWithID.addMethod("DELETE", deleteRecipeIntegration);
 
-    // Users
-    const usersBase = apiBase.addResource("users");
-    const usersWithUsername = usersBase.addResource("{username}");
-
     // /users
-    usersWithUsername.addMethod("POST", createUserIntegration);
+    const usersBase = apiBase.addResource("users");
+    usersBase.addMethod("POST", createUserIntegration);
 
     // /users/{username}
+    const usersWithUsername = usersBase.addResource("{username}");
     usersWithUsername.addMethod("GET", getUserIntegration);
     usersWithUsername.addMethod("PATCH", updateUserIntegration);
     usersWithUsername.addMethod("DELETE", deleteUserIntegration);

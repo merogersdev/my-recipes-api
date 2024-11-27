@@ -13,9 +13,10 @@ export const Recipe = z.object({
   prepTime: z.number(),
   description: z.string(),
   method: z.array(z.string()),
-  photo: z.string(),
+  photoUrl: z.string(),
   level: z.string(),
-  likes: z.number(),
+  likeCount: z.number(),
+  commentCount: z.number(),
 });
 
 export type Recipe = z.infer<typeof Recipe>;

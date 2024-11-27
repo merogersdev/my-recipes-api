@@ -20,7 +20,8 @@ export const handler: Handler = async (event, _context) => {
     SK: `RECIPE#${uuid}`,
     createdAt: now,
     recipeId: uuid,
-    likes: 0,
+    likeCount: 0,
+    commentCount: 0,
     ...body,
   };
 

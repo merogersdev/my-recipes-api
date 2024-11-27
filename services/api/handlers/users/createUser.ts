@@ -9,12 +9,11 @@ const table: string = process.env.AWS_DYNAMODB_TABLE!;
 const now: string = new Date().toISOString();
 
 export const handler: Handler = async (event, _context) => {
-  const { username } = event.pathParameters;
   const body = JSON.parse(event.body || {});
 
   const newItem = {
-    PK: `USER#${username}`,
-    SK: `USER#${username}`,
+    PK: `USER#${body.userName}`,
+    SK: `USER#${body.userName}`,
     createdAt: now,
     ...body,
   };
