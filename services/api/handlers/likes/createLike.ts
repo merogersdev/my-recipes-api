@@ -24,7 +24,12 @@ export const handler: Handler = async (event, _context) => {
 
   try {
     Like.parse(newItem);
-    const result = await createWriteTransaction(table, newItem, body.recipeId);
+    const result = await createWriteTransaction(
+      table,
+      newItem,
+      body.recipeId,
+      "likeCount"
+    );
     return apiResponse(201, "Success: Like created", result);
   } catch (error) {
     logger.error(error);

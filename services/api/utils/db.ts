@@ -148,10 +148,12 @@ export const listItemsQuery = async (table: string, id: string) => {
   return await client.send(listItems);
 };
 
+// Create DB write transaction, updating
 export const createWriteTransaction = async (
   table: string,
   item: object,
-  id: string
+  id: string,
+  count: "likeCount" | "commentCount"
 ) => {
   const client = getClient();
 
@@ -172,7 +174,7 @@ export const createWriteTransaction = async (
           TableName: table,
           Key: { recipeId: id },
           ConditionExpression: "attribute_not_Exists(PK)",
-          UpdateExpression: "SET likeCount = likeCount + :increment",
+          UpdateExpression: `SET ${count} = ${count} + :increment`,
           ExpressionAttributeValues: { ":increment": 1 },
         },
       },
