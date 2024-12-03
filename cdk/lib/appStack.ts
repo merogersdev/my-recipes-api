@@ -57,6 +57,13 @@ export class AppStack extends Stack {
       memorySize: 1024,
     };
 
+    const nodeFunctionApiConfig = {
+      apiKeyRequired: true,
+      requestParameters: {
+        "method.request.header.x-api-key": true,
+      },
+    };
+
     // Create Recipe Handler
     const createRecipe = new NodejsFunction(this, "MyRecipeAppCreateRecipe", {
       functionName: "MyRecipeAppCreateRecipe",
@@ -145,6 +152,50 @@ export class AppStack extends Stack {
       ...nodeFunctionConfig,
     });
 
+    // Create Comment Handler
+    const createComment = new NodejsFunction(this, "MyRecipeAppCreateComment", {
+      functionName: "MyRecipeAppCreateComment",
+      entry: "services/api/handlers/comments/createComment.ts",
+      description: "Create Comment Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Delete Comment Handler
+    const deleteComment = new NodejsFunction(this, "MyRecipeAppDeleteComment", {
+      functionName: "MyRecipeAppDeleteComment",
+      entry: "services/api/handlers/comments/deleteComment.ts",
+      description: "Delete Comment Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Get All Comments Handler
+    const getAllComments = new NodejsFunction(
+      this,
+      "MyRecipeAppGetAllComments",
+      {
+        functionName: "MyRecipeAppGetAllComments",
+        entry: "services/api/handlers/comments/getAllComments.ts",
+        description: "Get All Comments Lambda Handler",
+        ...nodeFunctionConfig,
+      }
+    );
+
+    // Get Comment Handler
+    const getComment = new NodejsFunction(this, "MyRecipeAppGetComment", {
+      functionName: "MyRecipeAppGetComment",
+      entry: "services/api/handlers/comments/getComment.ts",
+      description: "Get Comment Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // Update Comment Handler
+    const updateComment = new NodejsFunction(this, "MyRecipeAppUpdateComment", {
+      functionName: "MyRecipeAppUpdateComment",
+      entry: "services/api/handlers/comments/updateComment.ts",
+      description: "Update Comment Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
     // Rest API With Lambda Integration
     const api = new RestApi(this, "MyPortfolioAppRestApi", {
       restApiName: "MyRecipesAppApi",
@@ -179,6 +230,12 @@ export class AppStack extends Stack {
     appTable.grantReadWriteData(createLike);
     appTable.grantReadWriteData(listLikes);
 
+    appTable.grantReadWriteData(createComment);
+    appTable.grantReadWriteData(deleteComment);
+    appTable.grantReadWriteData(getAllComments);
+    appTable.grantReadWriteData(getComment);
+    appTable.grantReadWriteData(updateComment);
+
     // Integrate Lambdas with API
     const createRecipeIntegration = new LambdaIntegration(createRecipe);
     const deleteRecipeIntegration = new LambdaIntegration(deleteRecipe);
@@ -194,6 +251,12 @@ export class AppStack extends Stack {
     const createLikeIntegration = new LambdaIntegration(createLike);
     const listLikesIntegration = new LambdaIntegration(listLikes);
 
+    const createCommentIntegration = new LambdaIntegration(createComment);
+    const deleteCommentIntegration = new LambdaIntegration(deleteComment);
+    const getAllCommentsIntegration = new LambdaIntegration(getAllComments);
+    const getCommentIntegration = new LambdaIntegration(getComment);
+    const updateCommentIntegration = new LambdaIntegration(updateComment);
+
     // Add resources and methods
     const apiVersion = "v1";
     const apiBase = api.root.addResource(apiVersion);
@@ -201,7 +264,7 @@ export class AppStack extends Stack {
     // /recipes
     const recipesBase = apiBase.addResource("recipes");
     const recipesWithUsername = recipesBase.addResource("{username}");
-    const recipeWithID = recipesWithUsername.addResource("{id}");
+    const recipeWithID = recipesWithUsername.addResource("{recipeId}");
 
     // /recipes/{username}
     recipesWithUsername.addMethod("POST", createRecipeIntegration);
@@ -216,6 +279,17 @@ export class AppStack extends Stack {
     const recipeWithIDLikes = recipeWithID.addResource("likes");
     recipeWithIDLikes.addMethod("POST", createLikeIntegration);
     recipeWithIDLikes.addMethod("GET", listLikesIntegration);
+
+    // /recipes/{username}/{id}/comments
+    const recipeWithComments = recipeWithID.addResource("comments");
+    recipeWithComments.addMethod("GET", getAllCommentsIntegration);
+    recipeWithComments.addMethod("POST", createCommentIntegration);
+
+    // /recipes/{username}/{id}/comments/{commentId}
+    const recipeWithCommentsId = recipeWithComments.addResource("{commentId}");
+    recipeWithCommentsId.addMethod("GET", getCommentIntegration);
+    recipeWithCommentsId.addMethod("PATCH", updateCommentIntegration);
+    recipeWithCommentsId.addMethod("DELETE", deleteCommentIntegration);
 
     // /users
     const usersBase = apiBase.addResource("users");

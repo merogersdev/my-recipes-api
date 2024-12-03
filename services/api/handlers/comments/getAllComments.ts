@@ -10,11 +10,11 @@ export const handler: Handler = async (event, _context) => {
   const { recipeId }: { recipeId: string } = event.pathParameters;
 
   try {
-    const results = await getAllItemsQuery(table, recipeId, "#LIKE");
+    const results = await getAllItemsQuery(table, recipeId, "#COMMENT");
 
-    return apiResponse(200, "Success: Likes retrieved", results);
+    return apiResponse(200, "Success: Comments retrieved", results);
   } catch (error) {
     logger.error(error);
-    return apiResponse(500, "Error: Cannot retrieve likes", error);
+    return apiResponse(500, "Error: Cannot retrieve comments", error);
   }
 };

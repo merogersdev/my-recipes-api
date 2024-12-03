@@ -7,23 +7,27 @@ import type { Handler } from "aws-lambda";
 const table: string = process.env.AWS_DYNAMODB_TABLE!;
 
 export const handler: Handler = async (event, _context) => {
-  const { recipeId, username }: { recipeId: string; username: string } =
+  const {
+    recipeId,
+    username,
+    commentId,
+  }: { recipeId: string; username: string; commentId: string } =
     event.pathParameters;
 
-  if (!recipeId || !username)
+  if (!recipeId || !username || !commentId)
     return apiResponse(400, "Error: invalid ID", null);
 
   const item = {
-    PK: `USER#${username}`,
-    SK: `RECIPE#${recipeId}`,
+    PK: `COMMENT#${recipeId}`,
+    SK: `COMMENT#${commentId}`,
   };
 
   try {
     const result = await deleteItem(item, table);
-    if (!result) return apiResponse(404, "Error: Recipe not found", null);
-    return apiResponse(200, "Success: Deleted item", item);
+    if (!result) return apiResponse(404, "Error: Comment not found", null);
+    return apiResponse(200, "Success: Deleted comment", item);
   } catch (error) {
     logger.error(error);
-    return apiResponse(500, "Error: Could not delete item", error);
+    return apiResponse(500, "Error: Could not delete comment", error);
   }
 };
