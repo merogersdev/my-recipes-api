@@ -248,7 +248,7 @@ export class AppStack extends Stack {
     appTable.grantReadWriteData(getComment);
     appTable.grantReadWriteData(updateComment);
 
-    // ------------------------------------------------------- //
+    // ----------------------------------------------------- //
     // --- --- --- Rest API Handler Integrations --- --- --- //
     // ----------------------------------------------------- //
 
@@ -287,45 +287,85 @@ export class AppStack extends Stack {
     const recipeWithID = recipesWithUsername.addResource("{recipeId}");
 
     // /recipes/{username}
-    recipesWithUsername.addMethod("POST", createRecipeIntegration);
-    recipesWithUsername.addMethod("GET", getAllRecipesIntegration);
+    recipesWithUsername.addMethod("POST", createRecipeIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipesWithUsername.addMethod("GET", getAllRecipesIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /recipes/{username}/{id}
-    recipeWithID.addMethod("GET", getRecipeIntegration);
-    recipeWithID.addMethod("PATCH", updateRecipeIntegration);
-    recipeWithID.addMethod("DELETE", deleteRecipeIntegration);
+    recipeWithID.addMethod("GET", getRecipeIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithID.addMethod("PATCH", updateRecipeIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithID.addMethod("DELETE", deleteRecipeIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /recipes/{username}/{id}/likes
     const recipeWithIDLikes = recipeWithID.addResource("likes");
-    recipeWithIDLikes.addMethod("POST", createLikeIntegration);
-    recipeWithIDLikes.addMethod("GET", listLikesIntegration);
+    recipeWithIDLikes.addMethod("POST", createLikeIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithIDLikes.addMethod("GET", listLikesIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /recipes/{username}/{id}/comments
     const recipeWithComments = recipeWithID.addResource("comments");
-    recipeWithComments.addMethod("GET", getAllCommentsIntegration);
-    recipeWithComments.addMethod("POST", createCommentIntegration);
+    recipeWithComments.addMethod("GET", getAllCommentsIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithComments.addMethod("POST", createCommentIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /recipes/{username}/{id}/comments/{commentId}
     const recipeWithCommentsId = recipeWithComments.addResource("{commentId}");
-    recipeWithCommentsId.addMethod("GET", getCommentIntegration);
-    recipeWithCommentsId.addMethod("PATCH", updateCommentIntegration);
-    recipeWithCommentsId.addMethod("DELETE", deleteCommentIntegration);
+    recipeWithCommentsId.addMethod("GET", getCommentIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithCommentsId.addMethod("PATCH", updateCommentIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    recipeWithCommentsId.addMethod("DELETE", deleteCommentIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /users
     const usersBase = apiBase.addResource("users");
-    usersBase.addMethod("POST", createUserIntegration);
+    usersBase.addMethod("POST", createUserIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
     // /users/{username}
     const usersWithUsername = usersBase.addResource("{username}");
-    usersWithUsername.addMethod("GET", getUserIntegration);
-    usersWithUsername.addMethod("PATCH", updateUserIntegration);
-    usersWithUsername.addMethod("DELETE", deleteUserIntegration);
+    usersWithUsername.addMethod("GET", getUserIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    usersWithUsername.addMethod("PATCH", updateUserIntegration, {
+      ...nodeFunctionApiConfig,
+    });
+    usersWithUsername.addMethod("DELETE", deleteUserIntegration, {
+      ...nodeFunctionApiConfig,
+    });
 
-    // resource.addMethod("POST", sendEmailIntegration, {
-    //   apiKeyRequired: true,
-    //   requestParameters: {
-    //     "method.request.header.x-api-key": true,
-    //   },
-    // });
+    // ------------------------------------------- //
+    // --- --- --- Rest API Usage Plan --- --- --- //
+    // ------------------------------------------- //
+
+    const plan = api.addUsagePlan("MyRecipeAppUsagePlan", {
+      name: "MyRecipeAppUsagePlan",
+      throttle: {
+        rateLimit: 10,
+        burstLimit: 20,
+      },
+    });
+
+    const key = api.addApiKey("MyRecipeAppApiKey");
+    plan.addApiKey(key);
   }
 }
