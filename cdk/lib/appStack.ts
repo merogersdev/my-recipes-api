@@ -42,9 +42,9 @@ export class AppStack extends Stack {
       ],
     });
 
-    // -------------------------------- //
-    // --- --- --- Rest API --- --- --- //
-    // -------------------------------- //
+    // ----------------------------------------------- //
+    // --- --- --- Rest API Handler Config --- --- --- //
+    // ----------------------------------------------- //
 
     // Node.js Handler Functions Config
     const nodeFunctionConfig = {
@@ -63,6 +63,10 @@ export class AppStack extends Stack {
         "method.request.header.x-api-key": true,
       },
     };
+
+    // -------------------------------------------------- //
+    // --- --- --- Rest API Handler Functions --- --- --- //
+    // -------------------------------------------------- //
 
     // Create Recipe Handler
     const createRecipe = new NodejsFunction(this, "MyRecipeAppCreateRecipe", {
@@ -196,6 +200,10 @@ export class AppStack extends Stack {
       ...nodeFunctionConfig,
     });
 
+    // --------------------------------------- //
+    // --- --- --- Rest API Config --- --- --- //
+    // --------------------------------------- //
+
     // Rest API With Lambda Integration
     const api = new RestApi(this, "MyPortfolioAppRestApi", {
       restApiName: "MyRecipesAppApi",
@@ -214,6 +222,10 @@ export class AppStack extends Stack {
         allowCredentials: true,
       },
     });
+
+    // ------------------------------------------------------- //
+    // --- --- --- Rest API Handler DB Permissions --- --- --- //
+    // ------------------------------------------------------- //
 
     // Add DynamoDB Read/Write permissions to handlers
     appTable.grantReadWriteData(createRecipe);
@@ -236,6 +248,10 @@ export class AppStack extends Stack {
     appTable.grantReadWriteData(getComment);
     appTable.grantReadWriteData(updateComment);
 
+    // ------------------------------------------------------- //
+    // --- --- --- Rest API Handler Integrations --- --- --- //
+    // ----------------------------------------------------- //
+
     // Integrate Lambdas with API
     const createRecipeIntegration = new LambdaIntegration(createRecipe);
     const deleteRecipeIntegration = new LambdaIntegration(deleteRecipe);
@@ -256,6 +272,10 @@ export class AppStack extends Stack {
     const getAllCommentsIntegration = new LambdaIntegration(getAllComments);
     const getCommentIntegration = new LambdaIntegration(getComment);
     const updateCommentIntegration = new LambdaIntegration(updateComment);
+
+    // ---------------------------------------------------- //
+    // --- --- --- Rest API Endpoints & Methods --- --- --- //
+    // ---------------------------------------------------- //
 
     // Add resources and methods
     const apiVersion = "v1";
