@@ -5,7 +5,7 @@ export const Recipe = z.object({
   SK: z.string(),
   recordType: z.string(),
   createdAt: z.string().datetime(),
-  recipeId: z.string().uuid(),
+  recipeId: z.string(),
   recipeName: z.string(),
   category: z.string(),
   cookTemp: z.number(),

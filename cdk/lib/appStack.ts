@@ -129,6 +129,22 @@ export class AppStack extends Stack {
       ...nodeFunctionConfig,
     });
 
+    // Create Like Handler
+    const createLike = new NodejsFunction(this, "MyRecipeAppCreateLike", {
+      functionName: "MyRecipeAppCreateLike",
+      entry: "services/api/handlers/likes/createLike.ts",
+      description: "Create Like Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
+    // List Likes Handler
+    const listLikes = new NodejsFunction(this, "MyRecipeAppListLikes", {
+      functionName: "MyRecipeAppListLikes",
+      entry: "services/api/handlers/likes/listLikes.ts",
+      description: "List Likes Lambda Handler",
+      ...nodeFunctionConfig,
+    });
+
     // Rest API With Lambda Integration
     const api = new RestApi(this, "MyPortfolioAppRestApi", {
       restApiName: "MyRecipesAppApi",
@@ -160,6 +176,9 @@ export class AppStack extends Stack {
     appTable.grantReadWriteData(updateUser);
     appTable.grantReadWriteData(deleteUser);
 
+    appTable.grantReadWriteData(createLike);
+    appTable.grantReadWriteData(listLikes);
+
     // Integrate Lambdas with API
     const createRecipeIntegration = new LambdaIntegration(createRecipe);
     const deleteRecipeIntegration = new LambdaIntegration(deleteRecipe);
@@ -171,6 +190,9 @@ export class AppStack extends Stack {
     const getUserIntegration = new LambdaIntegration(getUser);
     const updateUserIntegration = new LambdaIntegration(updateUser);
     const deleteUserIntegration = new LambdaIntegration(deleteUser);
+
+    const createLikeIntegration = new LambdaIntegration(createLike);
+    const listLikesIntegration = new LambdaIntegration(listLikes);
 
     // Add resources and methods
     const apiVersion = "v1";
@@ -189,6 +211,11 @@ export class AppStack extends Stack {
     recipeWithID.addMethod("GET", getRecipeIntegration);
     recipeWithID.addMethod("PATCH", updateRecipeIntegration);
     recipeWithID.addMethod("DELETE", deleteRecipeIntegration);
+
+    // /recipes/{username}/{id}/likes
+    const recipeWithIDLikes = recipeWithID.addResource("likes");
+    recipeWithIDLikes.addMethod("POST", createLikeIntegration);
+    recipeWithIDLikes.addMethod("GET", listLikesIntegration);
 
     // /users
     const usersBase = apiBase.addResource("users");

@@ -6,7 +6,7 @@ import type { Handler } from "aws-lambda";
 const table: string = process.env.AWS_DYNAMODB_TABLE!;
 
 export const handler: Handler = async (event, _context) => {
-  const { username } = event.pathParameters;
+  const { username }: { username: string } = event.pathParameters;
   try {
     const result = await getAllItemsQuery(table, username, "RECIPE#");
     return apiResponse(200, "Success: Items retrieved", result);

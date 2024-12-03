@@ -6,7 +6,8 @@ import type { Handler } from "aws-lambda";
 const table: string = process.env.AWS_DYNAMODB_TABLE!;
 
 export const handler: Handler = async (event) => {
-  const { id, username } = event.pathParameters;
+  const { id, username }: { id: string; username: string } =
+    event.pathParameters;
 
   if (!id || !username || !event.body)
     return apiResponse(400, "Error: Invalid request", null);

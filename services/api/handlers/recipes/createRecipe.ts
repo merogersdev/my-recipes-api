@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { ulid } from "ulid";
 
 import { apiResponse } from "../../utils/response";
 import { logger } from "../../utils/logger";
@@ -7,19 +7,19 @@ import { createItem } from "../../utils/db";
 
 import type { Handler } from "aws-lambda";
 
-const uuid = randomUUID();
+const id = ulid();
 const table: string = process.env.AWS_DYNAMODB_TABLE!;
 const now: string = new Date().toISOString();
 
 export const handler: Handler = async (event, _context) => {
-  const { username } = event.pathParameters;
+  const { username }: { username: string } = event.pathParameters;
   const body = JSON.parse(event.body || {});
 
   const newItem = {
     PK: `USER#${username}`,
-    SK: `RECIPE#${uuid}`,
+    SK: `RECIPE#${id}`,
     createdAt: now,
-    recipeId: uuid,
+    recipeId: id,
     likeCount: 0,
     commentCount: 0,
     ...body,
