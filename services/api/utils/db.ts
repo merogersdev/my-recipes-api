@@ -148,7 +148,7 @@ export const listItemsQuery = async (table: string, id: string) => {
   return await client.send(listItems);
 };
 
-// Create DB write transaction, updating
+// Create DB write transaction, adding an item and updating count for that item
 export const createWriteTransaction = async (
   table: string,
   item: object,
