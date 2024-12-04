@@ -1,0 +1,21 @@
+/* ------------------------------- */
+/* --- Local Inter Font Styles --- */
+/* ------------------------------- */
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("@/assets/fonts/ttf/Inter-Variable.ttf") format("truetype"),
+    url("@/assets/fonts/woff/Inter-Variable.woff") format("woff"),
+    url("@/assets/fonts/woff2/Inter-Variable.woff2") format("woff2");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter"),
+    url("@/assets/fonts/ttf/Inter-Italic-Variable.ttf") format("truetype"),
+    url("@/assets/fonts/woff/Inter-Italic-Variable.woff") format("woff"),
+    url("@/assets/fonts/woff2/Inter-Italic-Variable.woff2") format("woff2");
+  font-style: italic;
+}
