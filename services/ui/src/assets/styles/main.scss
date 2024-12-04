@@ -1,6 +1,7 @@
-@use "./base/reset" as *;
-@use "./base/global" as *;
-@use "./base/fonts" as *;
+@use "@/assets/styles/base/reset" as *;
+@use "@/assets/styles/base/global" as *;
+@use "@/assets/styles/base/fonts" as *;
+@use "@/assets/styles/base/variables" as *;
 
 /* ------------------- */
 /* --- Main Styles --- */
@@ -11,5 +12,5 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  font-family: "Inter", sans-serif;
+  font-family: $fontStack;
 }

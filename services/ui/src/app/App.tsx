@@ -1,5 +1,11 @@
+import Header from "../layout/header/Header";
+
 function App() {
-  return <>Snarf</>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default App;

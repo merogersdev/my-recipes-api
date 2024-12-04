@@ -1,0 +1,34 @@
+@use "@/assets/styles/base/variables" as *;
+
+/* -------------- */
+/* --- Mixins --- */
+/* -------------- */
+
+/* --- Breakpoints / Media Queries --- */
+
+@mixin tablet {
+  @media (min-width: $tabletBreakpoint) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktopBreakpoint) {
+    @content;
+  }
+}
+
+@mixin container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 100%;
+
+  @include tablet {
+    max-width: $tabletBreakpoint;
+  }
+
+  @include desktop {
+    max-width: $desktopBreakpoint;
+  }
+}
