@@ -5,50 +5,55 @@ const apiKey = "";
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
+    // API Base URL
     baseUrl: "",
+    // Add Content Type and API Key to Headers
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       headers.set("X-API-KEY", apiKey);
       return headers;
     },
   }),
-  tagTypes: ["Todos"],
+  // Set tags for invalidations
+  tagTypes: ["snarf"],
   endpoints: (builder) => ({
-    getTodos: builder.query({
-      query: () => "/todos",
+    getSnarfs: builder.query({
+      query: () => "/snarf",
       // transformResponse: (res) => res.sort((a, b) => b.id - a.id),
-      providesTags: ["Todos"],
+      providesTags: ["snarf"],
     }),
-    addTodo: builder.mutation({
-      query: (todo) => ({
-        url: "/todos",
+    addSnarf: builder.mutation({
+      query: (snarf) => ({
+        url: "/snarf",
         method: "POST",
-        body: todo,
+        body: snarf,
       }),
-      invalidatesTags: ["Todos"],
+      invalidatesTags: ["snarf"],
     }),
-    updateTodo: builder.mutation({
-      query: (todo) => ({
-        url: `/todos/${todo.id}`,
+    updateSnarf: builder.mutation({
+      query: (snarf) => ({
+        url: `/snarf/${snarf.id}`,
         method: "PATCH",
-        body: todo,
+        body: snarf,
       }),
-      invalidatesTags: ["Todos"],
+      invalidatesTags: ["snarf"],
     }),
-    deleteTodo: builder.mutation({
+    deleteSnarf: builder.mutation({
       query: ({ id }) => ({
-        url: `/todos/${id}`,
+        url: `/snarf/${id}`,
         method: "DELETE",
         body: id,
       }),
-      invalidatesTags: ["Todos"],
+      invalidatesTags: ["snarf"],
     }),
   }),
 });
 
 export const {
-  useGetTodosQuery,
-  useAddTodoMutation,
-  useUpdateTodoMutation,
-  useDeleteTodoMutation,
+  useGetSnarfsQuery,
+  useAddSnarfMutation,
+  useUpdateSnarfMutation,
+  useDeleteSnarfMutation,
 } = apiSlice;
+
+// const [useAddTodoMutation] =
