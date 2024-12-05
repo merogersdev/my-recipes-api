@@ -8,7 +8,7 @@
   background-color: $darkColor;
   color: $lightColor;
   &_container {
-    @include container;
     background-color: red;
+    @include container;
   }
 }
