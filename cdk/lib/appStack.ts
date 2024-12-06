@@ -71,7 +71,7 @@ export class AppStack extends Stack {
     // Create Recipe Handler
     const createRecipe = new NodejsFunction(this, "MyRecipeAppCreateRecipe", {
       functionName: "MyRecipeAppCreateRecipe",
-      entry: "services/api/handlers/recipes/createRecipe.ts",
+      entry: "services/backend/handlers/recipes/createRecipe.ts",
       description: "Create Recipe Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -79,7 +79,7 @@ export class AppStack extends Stack {
     // Delete Recipe Handler
     const deleteRecipe = new NodejsFunction(this, "MyRecipeAppDeleteRecipe", {
       functionName: "MyRecipeAppDeleteRecipe",
-      entry: "services/api/handlers/recipes/deleteRecipe.ts",
+      entry: "services/backend/handlers/recipes/deleteRecipe.ts",
       description: "Delete Recipe Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -87,7 +87,7 @@ export class AppStack extends Stack {
     // Get Recipe Handler
     const getRecipe = new NodejsFunction(this, "MyRecipeAppGetRecipe", {
       functionName: "MyRecipeAppGetRecipe",
-      entry: "services/api/handlers/recipes/getRecipe.ts",
+      entry: "services/backend/handlers/recipes/getRecipe.ts",
       description: "Get Recipe Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -95,7 +95,7 @@ export class AppStack extends Stack {
     // Update Recipe Handler
     const updateRecipe = new NodejsFunction(this, "MyRecipeAppUpdateRecipe", {
       functionName: "MyRecipeAppUpdateRecipe",
-      entry: "services/api/handlers/recipes/updateRecipe.ts",
+      entry: "services/backend/handlers/recipes/updateRecipe.ts",
       description: "Update Recipe Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -103,7 +103,7 @@ export class AppStack extends Stack {
     // Update Recipe Handler
     const getAllRecipes = new NodejsFunction(this, "MyRecipeAppGetAllRecipes", {
       functionName: "MyRecipeAppGetAllRecipes",
-      entry: "services/api/handlers/recipes/getAllRecipes.ts",
+      entry: "services/backend/handlers/recipes/getAllRecipes.ts",
       description: "Get All Recipes Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -111,7 +111,7 @@ export class AppStack extends Stack {
     // Get User Handler
     const getUser = new NodejsFunction(this, "MyRecipeAppGetUser", {
       functionName: "MyRecipeAppGetUser",
-      entry: "services/api/handlers/users/getUser.ts",
+      entry: "services/backend/handlers/users/getUser.ts",
       description: "Get User Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -119,7 +119,7 @@ export class AppStack extends Stack {
     // Create User Handler
     const createUser = new NodejsFunction(this, "MyRecipeAppCreateUser", {
       functionName: "MyRecipeAppCreateUser",
-      entry: "services/api/handlers/users/createUser.ts",
+      entry: "services/backend/handlers/users/createUser.ts",
       description: "Create New User Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -127,7 +127,7 @@ export class AppStack extends Stack {
     // Create User Handler
     const deleteUser = new NodejsFunction(this, "MyRecipeAppDeleteUser", {
       functionName: "MyRecipeAppDeleteUser",
-      entry: "services/api/handlers/users/deleteUser.ts",
+      entry: "services/backend/handlers/users/deleteUser.ts",
       description: "Delete User Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -135,7 +135,7 @@ export class AppStack extends Stack {
     // Create User Handler
     const updateUser = new NodejsFunction(this, "MyRecipeAppUpdateUser", {
       functionName: "MyRecipeAppUpdateUser",
-      entry: "services/api/handlers/users/updateUser.ts",
+      entry: "services/backend/handlers/users/updateUser.ts",
       description: "Update User Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -143,7 +143,7 @@ export class AppStack extends Stack {
     // Create Like Handler
     const createLike = new NodejsFunction(this, "MyRecipeAppCreateLike", {
       functionName: "MyRecipeAppCreateLike",
-      entry: "services/api/handlers/likes/createLike.ts",
+      entry: "services/backend/handlers/likes/createLike.ts",
       description: "Create Like Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -151,7 +151,7 @@ export class AppStack extends Stack {
     // List Likes Handler
     const listLikes = new NodejsFunction(this, "MyRecipeAppListLikes", {
       functionName: "MyRecipeAppListLikes",
-      entry: "services/api/handlers/likes/listLikes.ts",
+      entry: "services/backend/handlers/likes/listLikes.ts",
       description: "List Likes Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -159,7 +159,7 @@ export class AppStack extends Stack {
     // Create Comment Handler
     const createComment = new NodejsFunction(this, "MyRecipeAppCreateComment", {
       functionName: "MyRecipeAppCreateComment",
-      entry: "services/api/handlers/comments/createComment.ts",
+      entry: "services/backend/handlers/comments/createComment.ts",
       description: "Create Comment Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -167,7 +167,7 @@ export class AppStack extends Stack {
     // Delete Comment Handler
     const deleteComment = new NodejsFunction(this, "MyRecipeAppDeleteComment", {
       functionName: "MyRecipeAppDeleteComment",
-      entry: "services/api/handlers/comments/deleteComment.ts",
+      entry: "services/backend/handlers/comments/deleteComment.ts",
       description: "Delete Comment Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -178,7 +178,7 @@ export class AppStack extends Stack {
       "MyRecipeAppGetAllComments",
       {
         functionName: "MyRecipeAppGetAllComments",
-        entry: "services/api/handlers/comments/getAllComments.ts",
+        entry: "services/backend/handlers/comments/getAllComments.ts",
         description: "Get All Comments Lambda Handler",
         ...nodeFunctionConfig,
       }
@@ -187,7 +187,7 @@ export class AppStack extends Stack {
     // Get Comment Handler
     const getComment = new NodejsFunction(this, "MyRecipeAppGetComment", {
       functionName: "MyRecipeAppGetComment",
-      entry: "services/api/handlers/comments/getComment.ts",
+      entry: "services/backend/handlers/comments/getComment.ts",
       description: "Get Comment Lambda Handler",
       ...nodeFunctionConfig,
     });
@@ -195,7 +195,7 @@ export class AppStack extends Stack {
     // Update Comment Handler
     const updateComment = new NodejsFunction(this, "MyRecipeAppUpdateComment", {
       functionName: "MyRecipeAppUpdateComment",
-      entry: "services/api/handlers/comments/updateComment.ts",
+      entry: "services/backend/handlers/comments/updateComment.ts",
       description: "Update Comment Lambda Handler",
       ...nodeFunctionConfig,
     });
