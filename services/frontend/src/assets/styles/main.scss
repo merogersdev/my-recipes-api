@@ -13,4 +13,6 @@
   width: 100%;
   height: 100%;
   font-family: $fontStack;
+  position: relative;
+  z-index: 0;
 }

@@ -1,0 +1,9 @@
+@use "@/assets/styles/base/variables" as *;
+@use "@/assets/styles/utils/mixins" as *;
+
+.footer {
+  display: flex;
+  &__container {
+    @include container;
+  }
+}

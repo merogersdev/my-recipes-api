@@ -1,11 +1,16 @@
-import Header from "../layout/header/Header";
+import { createBrowserRouter, RouterProvider } from "react-router";
 
-function App() {
-  return (
-    <>
-      <Header />
-    </>
-  );
+import Home from "../pages/home/Home.tsx";
+import NotFound from "../pages/notFound/NotFound.tsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <NotFound />,
+  },
+]);
+
+export default function App() {
+  return <RouterProvider router={router} />;
 }
-
-export default App;
