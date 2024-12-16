@@ -5,22 +5,20 @@
 /* --- Palette --- */
 
 /*
-#606C38 - Dark Moss Green
-#283618 - Pakistan Green
-#FEFAE0 - Cornsilk
-#DDA15E - Earth Yellow
-#BC6C25 - Tiger's Eye
-
-#141101 - Smoky Black
+#030301 - Dark
+#00D9C0 - Primary
+#7F95D1 - Secondary
+#F6EFEE - Light
+#FF4365 - Error
 */
 
 /* --- Colors --- */
 
-$primaryColor: #283618;
-$secondaryColor: #bc6c25;
-$successColor: #606c38;
-$lightColor: #fefae0;
-$darkColor: #141101;
+$primaryColor: #a5d8ff;
+$secondaryColor: #21fa90;
+$lightColor: #f4f5f5;
+$darkColor: #313335;
+$errorColor: #de6449;
 
 /* --- Breakpoints --- */
 
@@ -34,3 +32,7 @@ $fontStack: "Inter", sans-serif;
 /* --- Shadows --- */
 
 $boxShadow: 0 0 4px 0 rgba(0, 0, 0, 0.08), 0 2px 4px 0 rgba(0, 0, 0, 0.12);
+
+/* --- Transitions --- */
+
+$primaryTransition: all 0.25s ease;
