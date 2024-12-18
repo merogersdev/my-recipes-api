@@ -1,0 +1,26 @@
+@use "@/assets/styles/base/variables" as *;
+@use "@/assets/styles/utils/mixins" as *;
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4rem;
+  width: 4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  z-index: 4;
+
+  &:hover {
+    .toggle__icon {
+      color: $primaryColor;
+    }
+  }
+  &__icon {
+    transition: $primaryTransition;
+    color: $lightColor;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}

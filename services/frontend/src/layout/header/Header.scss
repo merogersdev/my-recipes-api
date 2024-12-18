@@ -11,6 +11,17 @@
   left: 0;
   top: 0;
   background-color: #fff;
+  &__user {
+    display: flex;
+    align-items: center;
+    margin: 0 1rem 0 auto;
+  }
+  &__avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 100%;
+    margin-left: 1rem;
+  }
   &__container {
     align-items: center;
     justify-content: space-between;
