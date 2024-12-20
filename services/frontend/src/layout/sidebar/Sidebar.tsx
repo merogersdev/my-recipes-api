@@ -4,6 +4,7 @@ import { NavLink, Link } from "react-router";
 
 import { useAppSelector } from "../../app/store";
 import Toggle from "./toggle/Toggle";
+import Nav from "./nav/Nav";
 
 import "./Sidebar.scss";
 
@@ -31,9 +32,7 @@ export default function Sidebar() {
         }`}
       />
       <Toggle />
-      <nav className="sidebar__nav">
-        <ul className="sidebar__items"></ul>
-      </nav>
+      <Nav />
     </aside>
   );
 }

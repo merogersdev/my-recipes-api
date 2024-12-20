@@ -1,0 +1,10 @@
+@use "@/assets/styles/base/variables" as *;
+@use "@/assets/styles/utils/mixins" as *;
+
+.nav {
+  &__items {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+}
