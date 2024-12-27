@@ -1,17 +1,9 @@
-import Header from "../../layout/header/Header";
-import Sidebar from "../../layout/sidebar/Sidebar";
-import Main from "../../layout/main/Main";
-// import Footer from "../../layout/footer/Footer";
+import Layout from "../../layout/Layout";
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <Sidebar />
-      <Main>
-        <p>Home Page</p>
-      </Main>
-      {/* <Footer /> */}
-    </>
+    <Layout>
+      <p>Home Page</p>
+    </Layout>
   );
 }

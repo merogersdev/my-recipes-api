@@ -2,9 +2,46 @@
 @use "@/assets/styles/utils/mixins" as *;
 
 .nav {
+  position: relative;
   &__items {
     padding: 0;
     margin: 0;
     list-style: none;
+    position: relative;
+    z-index: 4;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+
+    text-decoration: none;
+    line-height: 3rem;
+    cursor: pointer;
+    &:hover {
+      .nav__icon,
+      .nav__text {
+        color: $primaryColor;
+      }
+    }
+  }
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4rem;
+    height: 1.5rem;
+    transition: $primaryTransition;
+    color: $lightColor;
+  }
+  &__text {
+    display: flex;
+    color: $lightColor;
+    overflow: hidden;
+    width: 0;
+    transition: $primaryTransition;
+    &--expanded {
+      width: 100%;
+    }
   }
 }

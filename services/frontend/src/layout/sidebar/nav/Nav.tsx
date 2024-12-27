@@ -1,4 +1,4 @@
-import { LuBanana, LuHouse, LuPizza } from "react-icons/lu";
+import { LuHouse, LuPizza } from "react-icons/lu";
 
 import { NavLink } from "react-router";
 
@@ -17,7 +17,11 @@ const navItems = [
 
 import "./Nav.scss";
 
-export default function Nav() {
+type NavProps = {
+  expanded: boolean;
+};
+
+export default function Nav({ expanded }: NavProps) {
   return (
     <nav className="nav">
       <ul className="nav__items">
@@ -25,8 +29,14 @@ export default function Nav() {
           navItems.map(({ name, href, icon }) => (
             <li className="nav__item" key={name}>
               <NavLink to={href} className="nav__link">
-                {icon}
-                <span className="nav__text">{name}</span>
+                <span className="nav__icon">{icon}</span>
+                <span
+                  className={`nav__text${
+                    expanded ? " nav__text--expanded" : ""
+                  }`}
+                >
+                  {name}
+                </span>
               </NavLink>
             </li>
           ))}

@@ -23,6 +23,7 @@
   margin: 0 auto;
   width: 100%;
   padding: 0 1rem;
+  position: relative;
   @include tablet {
     padding: 0;
     max-width: $tabletBreakpoint;

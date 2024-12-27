@@ -3,7 +3,7 @@
 
 .header {
   display: flex;
-  width: 100%;
+  width: calc(100% - 4rem);
   min-height: 4rem;
   z-index: 1;
   box-shadow: $boxShadow;
@@ -11,10 +11,38 @@
   left: 0;
   top: 0;
   background-color: #fff;
+  margin-left: 4rem;
+  &__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 5;
+  }
+  &__logo {
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    display: flex;
+    text-decoration: none;
+    color: $darkColor;
+    position: absolute;
+    top: 0;
+    left: 6rem;
+    z-index: 4;
+    transition: $primaryTransition;
+    &:hover {
+      color: $primaryColor;
+    }
+  }
+  &__title {
+    margin-left: 1rem;
+  }
   &__user {
     display: flex;
     align-items: center;
     margin: 0 1rem 0 auto;
+    color: $darkColor;
   }
   &__avatar {
     width: 2.5rem;

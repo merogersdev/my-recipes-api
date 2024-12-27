@@ -1,18 +1,32 @@
+import { LuBanana } from "react-icons/lu";
+
+import { Link } from "react-router-dom";
+
 import "./Header.scss";
 
-export default function Header() {
+type HeaderProps = {
+  title: string;
+};
+
+export default function Header({ title }: HeaderProps) {
   return (
-    <header className="header">
-      <div className="header__container">
-        <div className="header__user">
-          <span>John Doe</span>
-          <img
-            src="https://ui-avatars.com/api/?background=random"
-            alt="Avatar"
-            className="header__avatar"
-          />
+    <>
+      <Link to="/" className="header__logo">
+        <LuBanana className="header__icon" />
+        <span className="header__title">{title}</span>
+      </Link>
+      <header className="header">
+        <div className="header__container">
+          <div className="header__user">
+            <span>John Doe</span>
+            <img
+              src="https://ui-avatars.com/api/?background=random"
+              alt="Avatar"
+              className="header__avatar"
+            />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
