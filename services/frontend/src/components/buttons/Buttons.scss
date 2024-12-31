@@ -1,0 +1,54 @@
+@use "sass:color";
+
+@use "../../assets/styles/base/variables" as *;
+@use "../../assets/styles/utils/mixins" as *;
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+  font-family: $fontStack;
+  border-radius: 0.2rem;
+
+  text-decoration: none;
+  cursor: pointer;
+  color: $darkColor;
+  transition: $primaryTransition;
+
+  &--sm {
+    line-height: 2rem;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+  }
+
+  &--lg {
+    line-height: 3rem;
+    padding: 0 2rem;
+    font-size: 1.2rem;
+  }
+
+  &--primary {
+    background-color: $primaryColor;
+    border: none;
+    &:hover {
+      background-color: color.scale($primaryColor, $lightness: -15%);
+    }
+  }
+
+  &--secondary {
+    background-color: $secondaryColor;
+    border: none;
+    &:hover {
+      background-color: color.scale($secondaryColor, $lightness: -15%);
+    }
+  }
+  &--outline {
+    background-color: none;
+    border: 2px solid $darkColor;
+    &:hover {
+      border-color: color.scale($darkColor, $lightness: 70%);
+      color: color.scale($darkColor, $lightness: 50%);
+    }
+  }
+}

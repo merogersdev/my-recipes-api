@@ -1,4 +1,4 @@
-import { Stack, StackProps, RemovalPolicy } from "aws-cdk-lib";
+import { Stack, StackProps, RemovalPolicy, CfnOutput } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import {
   ApiKeySourceType,
@@ -8,6 +8,12 @@ import {
 import { NodejsFunction } from "aws-cdk-lib/aws-lambda-nodejs";
 import { Runtime } from "aws-cdk-lib/aws-lambda";
 import { AttributeType, Billing, TableV2 } from "aws-cdk-lib/aws-dynamodb";
+import {
+  UserPool,
+  VerificationEmailStyle,
+  DateTimeAttribute,
+  AccountRecovery,
+} from "aws-cdk-lib/aws-cognito";
 
 import type { envType } from "../../schemas/env";
 
@@ -21,6 +27,59 @@ export class AppStack extends Stack {
 
     // Env Config Props
     const { config } = props;
+
+    // ----------------------------------------- //
+    // --- --- --- Cognito User Pool --- --- --- //
+    // ----------------------------------------- //
+
+    const userPool = new UserPool(this, "MyRecipesUserPool", {
+      userPoolName: "MyRecipesUserPool",
+      signInAliases: {
+        email: true,
+      },
+      selfSignUpEnabled: true,
+      autoVerify: {
+        email: true,
+      },
+      userVerification: {
+        emailSubject: "You need to verify your email",
+        emailBody: "Thanks for signing up Your verification code is {####}", // # This placeholder is a must if code is selected as preferred verification method
+        emailStyle: VerificationEmailStyle.CODE,
+      },
+      standardAttributes: {
+        fullname: {
+          mutable: false,
+          required: true,
+        },
+      },
+      customAttributes: {
+        createdAt: new DateTimeAttribute(),
+      },
+      passwordPolicy: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireDigits: true,
+        requireSymbols: false,
+      },
+      accountRecovery: AccountRecovery.EMAIL_ONLY,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+
+    const appClient = userPool.addClient("MyRecipesAppClient", {
+      userPoolClientName: "MyRecipesClient",
+      authFlows: {
+        userPassword: true,
+      },
+    });
+
+    new CfnOutput(this, "MyRecipesUserPoolId", {
+      value: userPool.userPoolId,
+    });
+
+    new CfnOutput(this, "MyRecipesUserAppClientId", {
+      value: appClient.userPoolClientId,
+    });
 
     // -------------------------------------- //
     // --- --- --- DynamoDB Table --- --- --- //

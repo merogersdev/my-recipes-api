@@ -11,8 +11,6 @@ export default function Toggle() {
 
   // Toggle expanded state
   const toggle = () => dispatch(toggleExpanded());
-
-  console.log(expanded);
   return (
     <button className="toggle" onClick={toggle}>
       {expanded ? (

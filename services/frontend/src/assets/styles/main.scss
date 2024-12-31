@@ -1,7 +1,6 @@
-@use "@/assets/styles/base/reset" as *;
-@use "@/assets/styles/base/global" as *;
-@use "@/assets/styles/base/fonts" as *;
-@use "@/assets/styles/base/variables" as *;
+@use "./partials/reset" as *;
+@use "./partials/global" as *;
+@use "./partials/variables" as *;
 
 /* ------------------- */
 /* --- Main Styles --- */

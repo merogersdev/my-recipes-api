@@ -1,5 +1,5 @@
-@use "@/assets/styles/base/variables" as *;
-@use "@/assets/styles/utils/mixins" as *;
+@use "../../assets/styles/partials/variables" as *;
+@use "../../assets/styles/partials/mixins" as *;
 
 .sidebar {
   display: flex;
@@ -11,23 +11,27 @@
   width: 4rem;
   background-color: $darkColor;
   z-index: 3;
-  transition: $primaryTransition;
+  transition: width 0.25s ease;
   &__underlay {
     position: fixed;
     top: 0;
     left: 0;
     height: 100%;
-    width: 100%;
+    width: 4rem;
     opacity: 0;
     background-color: $darkColor;
     z-index: 2;
-    transition: $primaryTransition;
+    transition: opacity 0.25s ease;
     &--expanded {
       opacity: 0.5;
+      width: 100%;
     }
   }
   &--expanded {
-    width: 15rem;
+    width: 100%;
+    @include tablet {
+      width: 20rem;
+    }
   }
   &__nav {
     display: flex;

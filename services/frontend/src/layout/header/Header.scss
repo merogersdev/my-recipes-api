@@ -1,5 +1,7 @@
-@use "@/assets/styles/base/variables" as *;
-@use "@/assets/styles/utils/mixins" as *;
+@use "sass:color";
+
+@use "../../assets/styles/partials/variables" as *;
+@use "../../assets/styles/partials/mixins" as *;
 
 .header {
   display: flex;
@@ -12,6 +14,12 @@
   top: 0;
   background-color: #fff;
   margin-left: 4rem;
+  &__name {
+    display: none;
+    @include tablet {
+      display: flex;
+    }
+  }
   &__icon {
     width: 1.5rem;
     height: 1.5rem;
@@ -19,20 +27,17 @@
   }
   &__logo {
     cursor: pointer;
-    z-index: 5;
+    z-index: 3;
     display: flex;
     align-items: center;
     height: 4rem;
     display: flex;
     text-decoration: none;
     color: $darkColor;
-    position: absolute;
-    top: 0;
-    left: 6rem;
-    z-index: 4;
+    position: relative;
     transition: $primaryTransition;
     &:hover {
-      color: $primaryColor;
+      color: color.scale($darkColor, $lightness: 50%);
     }
   }
   &__title {

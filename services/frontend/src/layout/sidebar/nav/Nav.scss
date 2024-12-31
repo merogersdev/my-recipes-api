@@ -1,5 +1,5 @@
-@use "@/assets/styles/base/variables" as *;
-@use "@/assets/styles/utils/mixins" as *;
+@use "../../../assets/styles/partials/variables" as *;
+@use "../../../assets/styles/partials/mixins" as *;
 
 .nav {
   position: relative;

@@ -1,10 +1,10 @@
-@use "@/assets/styles/base/variables" as *;
-@use "@/assets/styles/utils/mixins" as *;
+@use "../../assets/styles/partials/variables" as *;
+@use "../../assets/styles/partials/mixins" as *;
 
 .main {
   display: flex;
   flex-direction: column;
-  height: 100%;
+
   background-color: $lightColor;
   z-index: 0;
   margin: 4rem 0 0 4rem;

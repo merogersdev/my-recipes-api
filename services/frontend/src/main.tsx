@@ -6,7 +6,7 @@ import App from "./app/App.tsx";
 
 import { store } from "./app/store.ts";
 
-import "@/assets/styles/main.scss";
+import "./assets/styles/main.scss";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
